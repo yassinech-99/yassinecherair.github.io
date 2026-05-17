@@ -1,0 +1,27 @@
+[[projects]]
+  title = "AI-Powered Network Sandbox"
+  description = "LLM that impersonates real network devices — tracks session state in Neo4j, grounds every CLI response in vendor docs via RAG, and wraps it all behind a real SSH and RESTCONF server. Ansible and Terraform connect to it with zero changes."
+  tech = "Python,LangChain,Neo4j,FastAPI,Docker,RAG"
+  link = "https://github.com/yassinech-99/AI-Powered-Network-Sandbox-"
+  image = "/images/yc-thumb.svg"
+
+[[projects]]
+  title = "langchain-dockersandbox"
+  description = "A pip-installable Docker sandbox backend for LangChain agents. Gives your agent a real isolated container to execute code in — thread-scoped by default, gVisor-ready for production, with file upload/download APIs."
+  tech = "Python,Docker,LangChain,gVisor"
+  link = "https://github.com/yassinech-99/langchain-docker"
+  image = "/images/yc-thumb.svg"
+
+[[projects]]
+  title = "NovaGrid Agents"
+  description = "Enterprise agent workspace built on Amazon Nova. Visual agent builder, hybrid RAG (FAISS + BM25 + Bedrock Knowledge Bases), browser automation via Nova Act, and S3 document ingestion. Full stack: LangGraph + FastAPI + React."
+  tech = "Python,LangGraph,Amazon Bedrock,FAISS,Meilisearch,TypeScript"
+  link = "https://github.com/yassinech-99/agent-builder"
+  image = "/images/yc-thumb.svg"
+
+[[projects]]
+  title = "RunPod ComfyUI Workers"
+  description = "Base Docker images for a fleet of RunPod serverless image and video generation workers. Standardized CUDA setup and pre-loaded model volumes from HuggingFace and CivitAI — containers attach ready, no cold-start pulls."
+  tech = "Docker,Python,RunPod,ComfyUI,CUDA,HuggingFace"
+  link = "https://github.com/yassinech-99/runpod_comfyui"
+  image = "/images/yc-thumb.svg"

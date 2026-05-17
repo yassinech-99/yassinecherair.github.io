@@ -1,0 +1,35 @@
+baseURL = 'https://yassinecherair.github.io/'
+languageCode = 'en'
+title = 'Yassine Cherair'
+theme = "hugo-noir"
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = false
+disableKinds = ["taxonomy", "term"]
+buildFuture = true
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[params]
+  name = "Yassine Cherair"
+  email = "yassinecherair@gmail.com"
+  linkedin = "https://linkedin.com/in/yassine-cherair"
+  github = "https://github.com/yassinech-99"
+
+[languages]
+  [languages.en]
+    languageName = "English"
+    title = "Yassine Cherair"
+    weight = 1
+    contentDir = "content/en"
+    [languages.en.menu]
+      [[languages.en.menu.main]]
+        name = "Projects"
+        pageRef = "/projects"
+        weight = 1
+      [[languages.en.menu.main]]
+        name = "Blog"
+        pageRef = "/blogs"
+        weight = 2

@@ -1,0 +1,7 @@
+# blogs listed here appear on the homepage and /blogs/ list
+[[blogs]]
+#   title = "Post title"
+#   date = "Month DD, YYYY"
+#   link = "/blogs/slug/"
+#   summary = "Short description."
+#   tags = ["tag1", "tag2"]

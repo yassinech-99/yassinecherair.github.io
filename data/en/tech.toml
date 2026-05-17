@@ -1,0 +1,35 @@
+# Backend • Cloud • Infrastructure
+row1 = [
+
+  { icon = "devicon-amazonwebservices-plain-wordmark", name = "AWS" },
+  { icon = "devicon-azure-plain", name = "Azure" },
+  { icon = "devicon-googlecloud-plain", name = "GCP" },
+  { icon = "", name = "Runpod" },
+  { icon = "devicon-git-plain", name = "GIT" },
+  { icon = "devicon-docker-plain", name = "Docker" },
+  { icon = "devicon-kubernetes-plain", name = "Kubernetes" },
+  { icon = "devicon-terraform-plain", name = "Terraform" },
+  { icon = "devicon-ansible-plain", name = "Ansible" }
+  
+]
+
+# AI • Networking • Observability • Data
+row2 = [
+  { icon = "devicon-python-plain", name = "Python" },
+  { icon = "devicon-go-plain", name = "Go" },
+  { icon = "devicon-bash-plain", name = "Bash" },
+
+  { icon = "devicon-fastapi-plain", name = "FastAPI" },
+  { icon = "devicon-django-plain", name = "Django" },
+
+  { icon = "devicon-pytorch-original", name = "PyTorch" },
+  { icon = "", name = "LangChain" },
+  { icon = "", name = "Ollama" },
+  { icon = "", name = "Huggingface" },
+
+
+  { icon = "devicon-postgresql-plain", name = "PostgreSQL" },
+  { icon = "devicon-supabase-plain", name = "Supabase" },
+  { icon = "devicon-neo4j-plain", name = "Neo4j" },
+
+]

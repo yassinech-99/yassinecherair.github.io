@@ -1,0 +1,23 @@
+[[experience]]
+  role = "Technical Product Engineer – HCS Security"
+  company = "Huawei"
+  company_link = "https://www.huawei.com"
+  period = "Sep 2025 – Present"
+  country = "Algiers, DZ"
+  description = "Product security on Huawei Cloud Stack (HCS) deployments."
+
+[[experience]]
+  role = "AI Platform Engineer (Freelance)"
+  company = "Cinématique"
+  company_link = "https://cinematique.co/"
+  period = "Oct 2025 – Feb 2026"
+  country = "Paris, FR (Remote)"
+  description = "Built pipelines to download and push models into RunPod network volumes. Containerized Docker images that load those volumes and run on GPU containers — powering ComfyUI workflows for image and video generation."
+
+[[experience]]
+  role = "AI Developer → NetDevOps Engineer"
+  company = "InfraXcode"
+  company_link = "https://infraxcode.com/"
+  period = "Sep 2023 – Mar 2025"
+  country = "Paris, FR (Remote)"
+  description = "Built an agent that mimics real network devices — session state in Neo4j, CLI commands and RESTCONF requests grounded in vendor docs via RAG, wrapped behind a custom SSH server and RESTCONF server. Terraform and Ansible connected to it transparently, with no awareness it wasn't real hardware."

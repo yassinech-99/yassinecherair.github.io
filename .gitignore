@@ -1,0 +1,9 @@
+
+.hugo_build.lock
+*.docx
+resources/_gen/
+.DS_Store
+.claude/
+.claude.json
+.mcp.json
+
