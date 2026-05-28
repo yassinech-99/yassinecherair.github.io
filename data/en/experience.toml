@@ -7,13 +7,17 @@
   description = "Product security on Huawei Cloud Stack (HCS) deployments."
 
 [[experience]]
-  role = "AI Platform Engineer (Freelance)"
+  role = "GENAI Platform Engineer (Freelance)"
   company = "Cinématique"
   company_link = "https://cinematique.co/"
   period = "Oct 2025 – Feb 2026"
   country = "Paris, FR (Remote)"
-  description = "Built pipelines to download and push models into RunPod network volumes. Containerized Docker images that load those volumes and run on GPU containers — powering ComfyUI workflows for image and video generation."
-
+  description = "
+  –	Built and maintained custom RunPod serverless worker images for ComfyUI-based image and video generation pipelines, running models including Wan2.2-Animate 14B, ViTPose, YOLOv10, and SeC-4B
+  –	Designed base Docker images that all other worker images inherit from — standardized CUDA setup, dependencies, and entrypoints across the fleet
+  –	Automated model downloads from HuggingFace and CivitAI into RunPod network volumes at startup — containers attach pre-loaded volumes instead of pulling models on every cold start
+  –	Tested and validated end-to-end inference pipelines covering pose estimation, video segmentation, VAE decode, and multi-LoRA video generation
+  "
 [[experience]]
   role = "AI Developer → NetDevOps Engineer"
   company = "InfraXcode"
