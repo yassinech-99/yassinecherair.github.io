@@ -13,9 +13,9 @@
   period = "Oct 2025 – Feb 2026"
   country = "Paris, FR (Remote)"
   description = """
-                –	Built and maintained custom RunPod serverless worker images for ComfyUI-based image and video generation pipelines, running models including Wan2.2-Animate 14B, ViTPose, YOLOv10, and SeC-4B
-                –	Designed base Docker images that all other worker images inherit from — standardized CUDA setup, dependencies, and entrypoints across the fleet
-                –	Automated model downloads from HuggingFace and CivitAI into RunPod network volumes at startup — containers attach pre-loaded volumes instead of pulling models on every cold start
+                –	Built and maintained custom RunPod serverless worker images for ComfyUI-based image and video generation pipelines, running models including Wan2.2-Animate 14B, ViTPose, YOLOv10, and SeC-4B.\n
+                –	Designed base Docker images that all other worker images base from — standardized CUDA setup, dependencies, and entrypoints.\n
+                –	Automated model downloads from HuggingFace and CivitAI into RunPod network volumes at startup — containers attach pre-loaded volumes instead of pulling models on every cold start.\n
                 –	Tested and validated end-to-end inference pipelines covering pose estimation, video segmentation, VAE decode, and multi-LoRA video generation
                 """
 [[experience]]
