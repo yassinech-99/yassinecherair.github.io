@@ -8,99 +8,67 @@
 .pi-terminal-widget--interactive {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0;
 }
 
 .pi-terminal-frame {
   display: flex;
   flex-direction: column;
   position: relative;
-  border-radius: 10px;
+  border-radius: 8px;
   overflow: hidden;
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--line);
   background: var(--landing-demo-terminal-bg);
-  box-shadow: 0 4px 28px #00000026;
+  box-shadow: none;
   min-height: 22rem;
-}
-
-:root[data-theme="light"] .pi-terminal-frame {
-  box-shadow: 0 4px 22px #7862511a;
 }
 
 .pi-terminal-widget.is-exhausted .pi-terminal-frame {
   border-color: color-mix(in srgb, var(--accent-rust) 50%, var(--line));
 }
 
-.pi-terminal-chrome {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+.pi-terminal-strip {
   flex-shrink: 0;
-  padding: 0.45rem 0.65rem;
+  padding: 0.35rem 0.9rem;
   border-bottom: 1px solid var(--line);
-  background: color-mix(in srgb, var(--landing-demo-terminal-bg) 88%, #000 12%);
 }
 
-:root[data-theme="light"] .pi-terminal-chrome {
-  background: color-mix(in srgb, var(--landing-demo-terminal-bg) 92%, #fff 8%);
-}
-
-.pi-terminal-lights {
-  display: flex;
-  gap: 0.35rem;
-}
-
-.pi-terminal-light {
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 50%;
-  opacity: 0.85;
-}
-
-.pi-terminal-light--red {
-  background: #ff5f57;
-}
-
-.pi-terminal-light--yellow {
-  background: #febc2e;
-}
-
-.pi-terminal-light--green {
-  background: #28c840;
-}
-
-.pi-terminal-title {
-  flex: 1;
-  min-width: 0;
+.pi-terminal-strip__label {
+  display: block;
   font-family: var(--mono);
   font-size: 0.68rem;
   color: var(--landing-demo-caption-color);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-align: center;
 }
 
-.pi-terminal-status {
+.pi-terminal-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  padding: 0.4rem 0.9rem;
+  border-top: 1px solid var(--line);
+  background: color-mix(in srgb, var(--landing-demo-terminal-bg) 97%, #000 3%);
+}
+
+.pi-terminal-footer__status {
+  flex-shrink: 0;
   font-family: var(--mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.06em;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--accent);
-  padding: 0.15rem 0.4rem;
-  border: 1px solid var(--accent-border-muted);
-  border-radius: 0.15rem;
-  background: var(--accent-surface-faint);
+  color: var(--muted);
 }
 
-.pi-terminal-widget.is-busy .pi-terminal-status {
+.pi-terminal-widget.is-busy .pi-terminal-footer__status {
   color: var(--muted-strong);
   animation: pi-status-pulse 1.2s ease-in-out infinite;
 }
 
-.pi-terminal-widget.is-exhausted .pi-terminal-status {
+.pi-terminal-widget.is-exhausted .pi-terminal-footer__status {
   color: var(--accent-rust);
-  border-color: color-mix(in srgb, var(--accent-rust) 40%, transparent);
 }
 
 @keyframes pi-status-pulse {
@@ -132,9 +100,9 @@
   align-items: center;
   gap: 0.5rem;
   flex-shrink: 0;
-  padding: 0.55rem 0.65rem;
+  padding: 0.55rem 0.9rem;
   border-top: 1px solid var(--line);
-  background: color-mix(in srgb, var(--landing-demo-terminal-bg) 95%, #000 5%);
+  background: var(--landing-demo-terminal-bg);
 }
 
 .pi-terminal-input-prompt {
@@ -323,66 +291,51 @@
   }
 }
 
-/* Token meter — billing */
+/* Token meter — in-terminal footer */
 .pi-terminal-meter {
   font-family: var(--mono);
-  font-size: 0.68rem;
-  padding: 0.35rem 0.15rem 0;
+  font-size: 0.62rem;
   color: var(--muted);
-  flex-shrink: 0;
+  min-width: 0;
 }
 
 .pi-terminal-meter--billing {
-  margin-top: 0.35rem;
-  padding: 0.55rem 0.65rem;
-  border: 1px solid var(--line);
-  border-radius: 0.35rem;
-  background: color-mix(in srgb, var(--panel) 65%, var(--landing-demo-terminal-bg) 35%);
-}
-
-.pi-terminal-meter__header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 0.45rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  font-size: 0.6rem;
-  color: var(--muted);
-}
-
-.pi-terminal-meter__dzd {
-  font-size: 0.72rem;
-  font-variant-numeric: tabular-nums;
-  color: var(--accent);
-  letter-spacing: 0.02em;
-  text-transform: none;
-}
-
-.pi-terminal-widget.is-exhausted .pi-terminal-meter__dzd {
-  color: var(--accent-rust);
-}
-
-.pi-terminal-meter__row {
+  flex: 1;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  row-gap: 0.25rem;
 }
 
 .pi-terminal-meter__label {
   flex-shrink: 0;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  font-size: 0.58rem;
   color: var(--muted);
 }
 
 .pi-terminal-meter__track {
-  flex: 1;
-  height: 4px;
+  flex: 1 1 4rem;
+  min-width: 3rem;
+  max-width: 8rem;
+  height: 3px;
   border-radius: 2px;
   background: var(--line);
   overflow: hidden;
+}
+
+.pi-terminal-meter__dzd {
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.62rem;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+
+.pi-terminal-widget.is-exhausted .pi-terminal-meter__dzd {
+  color: var(--accent-rust);
 }
 
 .pi-terminal-meter__fill {
@@ -405,23 +358,33 @@
   flex-shrink: 0;
   font-variant-numeric: tabular-nums;
   color: var(--muted-strong);
+  white-space: nowrap;
 }
 
-.pi-terminal-meter__meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  margin-top: 0.35rem;
-  padding-top: 0.35rem;
-  border-top: 1px dashed var(--line);
-  font-size: 0.62rem;
-  color: var(--muted);
-}
-
+.pi-terminal-meter__meta,
 .pi-terminal-meter__rate {
+  flex-shrink: 0;
   font-variant-numeric: tabular-nums;
-  color: var(--muted-strong);
+  color: color-mix(in srgb, var(--muted) 85%, transparent);
+  white-space: nowrap;
+}
+
+.pi-terminal-meter__meta::before {
+  content: "·";
+  margin-right: 0.35rem;
+  opacity: 0.5;
+}
+
+.pi-terminal-meter__rate::before {
+  content: "·";
+  margin-right: 0.35rem;
+  opacity: 0.5;
+}
+
+@media (max-width: 520px) {
+  .pi-terminal-meter__rate {
+    display: none;
+  }
 }
 
 .pi-terminal-widget.is-exhausted .pi-terminal-meter__values {
@@ -490,6 +453,102 @@
 
 .pi-terminal-line--tool.pi-terminal-line--category {
   font-family: var(--mono), "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+}
+
+/* Blog list + reader modes */
+.pi-terminal-widget.is-blog-list .pi-terminal-input-row,
+.pi-terminal-widget.is-blog-reader .pi-terminal-input-row {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.pi-terminal-widget.is-blog-list .pi-terminal-scroll,
+.pi-terminal-widget.is-blog-reader .pi-terminal-scroll {
+  cursor: default;
+}
+
+.pi-terminal-widget.is-blog-reader .pi-terminal-scroll {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.pi-terminal-widget.is-blog-reader .pi-terminal-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0.5rem;
+}
+
+.pi-terminal-blog-list {
+  margin-top: 0.35rem;
+}
+
+.pi-terminal-blog-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.65rem;
+  padding: 0.4rem 0.35rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  line-height: 1.35;
+  border-radius: 4px;
+  cursor: default;
+}
+
+.pi-terminal-blog-item.is-active {
+  background: color-mix(in srgb, var(--accent) 12%, var(--landing-demo-terminal-bg));
+  border-left: 2px solid var(--accent);
+  padding-left: calc(0.35rem - 2px);
+}
+
+.pi-terminal-blog-item__slug {
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.pi-terminal-blog-item__meta {
+  color: color-mix(in srgb, var(--landing-demo-terminal-fg) 55%, transparent);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.pi-terminal-reader {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  margin-top: 0.35rem;
+}
+
+.pi-terminal-reader__hint {
+  flex-shrink: 0;
+  margin-bottom: 0.35rem;
+  font-size: 0.65rem;
+}
+
+.pi-terminal-reader__viewport {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--landing-demo-terminal-bg) 92%, #000 8%);
+  padding: 0.5rem 0.65rem;
+}
+
+.pi-terminal-reader__content {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--landing-demo-terminal-fg);
 }
 
 /* Legacy tab styles — hidden for interactive shell */

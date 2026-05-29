@@ -156,6 +156,13 @@
       this.completeOpen = false;
       this.completeIndex = -1;
       this.completeMatches = [];
+      this.scrollEl = widget.querySelector("[data-terminal-scroll]");
+      this.uiMode = "repl";
+      this.blogPosts = this.ctx.posts || [];
+      this.blogIndex = 0;
+      this.savedScrollbackHTML = "";
+      this.savedStripTitle = "";
+      this.readerViewport = null;
 
       this.budget = {
         total: Number(this.ctx.budget?.total_tokens) || 50000,
@@ -200,6 +207,8 @@
       this.input.addEventListener("input", () => this.syncCompletionOnInput());
 
       this.input.addEventListener("keydown", (e) => {
+        if (this.uiMode !== "repl") return;
+
         if (e.key === "Escape") {
           if (this.completeOpen) {
             e.preventDefault();
@@ -235,7 +244,13 @@
         }
       });
 
-      this.widget.querySelector("[data-terminal-scroll]")?.addEventListener("click", () => {
+      this.widget.addEventListener("keydown", (e) => this.handleBlogKeys(e));
+
+      this.scrollEl?.addEventListener("click", () => {
+        if (this.uiMode !== "repl") {
+          this.widget.focus();
+          return;
+        }
         if (!this.exhausted && !this.busy) this.input.focus();
       });
 
@@ -279,7 +294,7 @@
         this.meterRate.textContent = `${dzdPer1k.toFixed(2)} ${currency} / 1k tok`;
       }
       if (this.meterMeta) {
-        this.meterMeta.textContent = `${this.requestCount} request${this.requestCount === 1 ? "" : "s"}`;
+        this.meterMeta.textContent = `${this.requestCount} req`;
       }
     }
 
@@ -293,7 +308,7 @@
       this.widget.classList.add("is-exhausted");
       this.input.disabled = true;
       this.input.placeholder = "quota exceeded — refresh to continue";
-      if (this.titleEl) this.titleEl.textContent = "yc@portfolio — billing hold";
+      if (this.titleEl) this.titleEl.textContent = "yc@portfolio — hold";
       this.setStatus("suspended");
       this.updateMeter();
     }
@@ -303,7 +318,7 @@
       this.busy = busy;
       this.widget.classList.toggle("is-busy", busy);
       if (!this.exhausted) this.input.disabled = busy;
-      this.setStatus(busy ? "streaming…" : "ready");
+      this.setStatus(busy ? "busy" : "ready");
     }
 
     appendEchoLine(cmd) {
@@ -365,6 +380,7 @@
     computeCost(cmd, charsStreamed, isClear) {
       if (isClear) return this.budget.clearCost;
       if (cmd === "/usage") return this.budget.usageCost;
+      if (cmd === "/blog") return this.budget.base;
       return this.budget.base + charsStreamed * this.budget.charsPerToken;
     }
 
@@ -377,7 +393,201 @@
     }
 
     completionDisabled() {
-      return this.busy || this.exhausted;
+      return this.busy || this.exhausted || this.uiMode !== "repl";
+    }
+
+    handleBlogKeys(e) {
+      if (this.uiMode === "repl") return;
+
+      if (this.uiMode === "blogList") {
+        if (e.key === "Escape") {
+          e.preventDefault();
+          this.exitBlogToRepl();
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          this.blogIndex = Math.max(0, this.blogIndex - 1);
+          this.renderBlogList();
+        } else if (e.key === "ArrowDown") {
+          e.preventDefault();
+          this.blogIndex = Math.min(this.blogPosts.length - 1, this.blogIndex + 1);
+          this.renderBlogList();
+        } else if (e.key === "Enter") {
+          e.preventDefault();
+          const post = this.blogPosts[this.blogIndex];
+          if (post) this.openBlogReader(post);
+        }
+        return;
+      }
+
+      if (this.uiMode === "blogReader") {
+        const vp = this.readerViewport;
+        if (e.key === "Escape" || e.key === "q") {
+          e.preventDefault();
+          this.closeBlogReaderToList();
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          if (vp) vp.scrollTop -= 28;
+        } else if (e.key === "ArrowDown") {
+          e.preventDefault();
+          if (vp) vp.scrollTop += 28;
+        } else if (e.key === "PageUp") {
+          e.preventDefault();
+          if (vp) vp.scrollTop -= vp.clientHeight * 0.85;
+        } else if (e.key === "PageDown") {
+          e.preventDefault();
+          if (vp) vp.scrollTop += vp.clientHeight * 0.85;
+        } else if (e.key === "g") {
+          e.preventDefault();
+          if (vp) vp.scrollTop = 0;
+        } else if (e.key === "G") {
+          e.preventDefault();
+          if (vp) vp.scrollTop = vp.scrollHeight;
+        }
+      }
+    }
+
+    enterBlogList() {
+      this.closeComplete();
+      this.blogPosts = this.ctx.posts || [];
+      this.savedScrollbackHTML = this.body.innerHTML;
+      this.savedStripTitle = this.titleEl?.textContent || "";
+      this.uiMode = "blogList";
+      this.blogIndex = 0;
+      this.widget.classList.remove("is-blog-reader");
+      this.widget.classList.add("is-blog-list");
+      this.input.disabled = true;
+      if (this.titleEl) this.titleEl.textContent = "blog — select post";
+      this.setStatus("↑↓ enter esc");
+      this.renderBlogList();
+      this.widget.focus();
+    }
+
+    exitBlogToRepl() {
+      this.uiMode = "repl";
+      this.widget.classList.remove("is-blog-list", "is-blog-reader");
+      this.body.innerHTML = this.savedScrollbackHTML;
+      this.readerViewport = null;
+      if (this.titleEl) this.titleEl.textContent = this.savedStripTitle;
+      if (!this.exhausted && !this.busy) {
+        this.setStatus("ready");
+        this.input.disabled = false;
+        this.input.focus();
+      } else if (this.exhausted) {
+        this.setStatus("suspended");
+      }
+    }
+
+    renderBlogList() {
+      this.body.innerHTML = "";
+
+      const header = document.createElement("div");
+      header.className = "pi-terminal-line pi-terminal-line--success";
+      header.textContent = `blog — ${this.blogPosts.length} post${this.blogPosts.length === 1 ? "" : "s"}`;
+      this.body.appendChild(header);
+
+      const hint = document.createElement("div");
+      hint.className = "pi-terminal-line pi-terminal-line--dim";
+      hint.textContent = "↑↓ select · enter read · esc back";
+      this.body.appendChild(hint);
+
+      const list = document.createElement("div");
+      list.className = "pi-terminal-blog-list";
+      list.setAttribute("role", "listbox");
+
+      this.blogPosts.forEach((post, i) => {
+        const row = document.createElement("div");
+        row.className =
+          "pi-terminal-blog-item" + (i === this.blogIndex ? " is-active" : "");
+        row.setAttribute("role", "option");
+        row.setAttribute("aria-selected", i === this.blogIndex ? "true" : "false");
+
+        const slug = document.createElement("span");
+        slug.className = "pi-terminal-blog-item__slug";
+        slug.textContent = `▸ ${post.slug}`;
+
+        const meta = document.createElement("span");
+        meta.className = "pi-terminal-blog-item__meta";
+        meta.textContent = [post.date, post.title].filter(Boolean).join("  ");
+
+        row.appendChild(slug);
+        row.appendChild(meta);
+        list.appendChild(row);
+      });
+
+      this.body.appendChild(list);
+      list.querySelector(".is-active")?.scrollIntoView({ block: "nearest" });
+      if (this.scrollEl) this.scrollEl.scrollTop = 0;
+    }
+
+    openBlogReader(post) {
+      this.uiMode = "blogReader";
+      this.widget.classList.remove("is-blog-list");
+      this.widget.classList.add("is-blog-reader");
+      if (this.titleEl) this.titleEl.textContent = `blog — ${post.slug}`;
+      this.setStatus("esc q ↑↓");
+
+      this.body.innerHTML = "";
+
+      const titleLine = document.createElement("div");
+      titleLine.className = "pi-terminal-line pi-terminal-line--tool";
+      titleLine.textContent = post.title || post.slug;
+      this.body.appendChild(titleLine);
+
+      if (post.date || post.summary) {
+        const metaLine = document.createElement("div");
+        metaLine.className = "pi-terminal-line pi-terminal-line--dim";
+        metaLine.textContent = [post.date, post.summary].filter(Boolean).join(" — ");
+        this.body.appendChild(metaLine);
+      }
+
+      const reader = document.createElement("div");
+      reader.className = "pi-terminal-reader";
+
+      const hint = document.createElement("div");
+      hint.className = "pi-terminal-reader__hint pi-terminal-line pi-terminal-line--dim";
+      hint.textContent = "esc · q back  ·  ↑↓ scroll  ·  g/G top/bottom";
+
+      const viewport = document.createElement("div");
+      viewport.className = "pi-terminal-reader__viewport";
+      viewport.setAttribute("tabindex", "-1");
+
+      const pre = document.createElement("pre");
+      pre.className = "pi-terminal-reader__content";
+      pre.textContent = post.body || "(empty post)";
+
+      viewport.appendChild(pre);
+      reader.appendChild(hint);
+      reader.appendChild(viewport);
+      this.body.appendChild(reader);
+      this.readerViewport = viewport;
+
+      viewport.focus();
+      if (this.scrollEl) this.scrollEl.scrollTop = 0;
+    }
+
+    closeBlogReaderToList() {
+      this.uiMode = "blogList";
+      this.widget.classList.remove("is-blog-reader");
+      this.widget.classList.add("is-blog-list");
+      this.readerViewport = null;
+      if (this.titleEl) this.titleEl.textContent = "blog — select post";
+      this.setStatus("↑↓ enter esc");
+      this.renderBlogList();
+      this.widget.focus();
+    }
+
+    runBlog() {
+      const posts = this.ctx.posts || [];
+      if (!posts.length) {
+        return [
+          { type: "warn", text: "no blog posts yet." },
+          { type: "dim", text: "add markdown under content/en/blog/" },
+        ];
+      }
+      this.blogPosts = posts;
+      this.charge(this.budget.base);
+      this.enterBlogList();
+      return null;
     }
 
     getInputCommandToken() {
@@ -563,6 +773,8 @@
 
     async handleSubmit() {
       this.closeComplete();
+      if (this.uiMode !== "repl") return;
+
       const raw = this.input.value.trim();
       if (!raw || this.busy) return;
 
@@ -587,6 +799,14 @@
 
       if (cmd === "/clear") {
         await this.runClear();
+        return;
+      }
+
+      if (cmd === "/blog") {
+        const blogLines = this.runBlog();
+        if (blogLines) {
+          await this.respond(blogLines, raw, false);
+        }
         return;
       }
 

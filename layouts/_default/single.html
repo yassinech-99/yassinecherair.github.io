@@ -1,11 +1,11 @@
 {{ define "main" }}
 <article class="py-8 pi-content-wide">
-    {{ if eq .Section "blogs" }}
-    <a href="{{ "blogs/" | relURL }}" class="font-mono text-sm text-pi-muted mb-8 inline-block">← All posts</a>
+    {{ if eq .Section "blog" }}
+    <a href="{{ "blog/" | relURL }}" class="font-mono text-sm text-pi-muted mb-8 inline-block">← All posts</a>
     {{ end }}
 
     <header class="mb-10 pb-8 border-b" style="border-color: var(--line)">
-        {{ if eq .Section "blogs" }}
+        {{ if eq .Section "blog" }}
         <div class="flex flex-wrap gap-2 mb-4">
             {{ range .Params.tags }}
             <span class="pi-chip">{{ . }}</span>

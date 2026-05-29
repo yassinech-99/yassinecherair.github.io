@@ -4,12 +4,12 @@
 window_title = "yc@portfolio — harness"
 lines = [
   "Portfolio harness v1 · local REPL · no API keys required.",
-  "Type /help for slash commands. Token meter below tracks your session.",
+  "Type /help for slash commands. Session budget shown in the footer · type /usage for details.",
 ]
 
 [boot_hints]
 lines = [
-  "/whoami  /experience  /skills  /projects  /hireme",
+  "/whoami  /experience  /skills  /projects  /blog  /hireme",
   "/usage  /clear  /help",
 ]
 
@@ -41,6 +41,10 @@ description = "Tech stack"
 [[commands]]
 name = "projects"
 description = "Selected projects"
+
+[[commands]]
+name = "blog"
+description = "Browse and read posts in-terminal"
 
 [[commands]]
 name = "hireme"

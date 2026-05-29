@@ -27,5 +27,5 @@ buildFuture = true
     [languages.en.menu]
       [[languages.en.menu.main]]
         name = "Blog"
-        pageRef = "/blogs"
+        pageRef = "/blog"
         weight = 1
