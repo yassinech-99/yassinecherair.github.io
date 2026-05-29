@@ -74,132 +74,12 @@
         <script src="/js/terminal-shell.min.js" defer></script>
         
     </head>
-    <body class="min-h-screen font-serif text-pi page-home-harness">
+    <body class="min-h-screen font-serif text-pi page-home-harness page-harness-only">
         <div class="site-tilt-layer">
             
-
-
-<header class="pi-nav">
-    <div class="pi-nav-inner">
-        
-        <a href="/" class="pi-nav-brand">Yassine Cherair</a>
-        
-
-        <nav class="pi-nav-links" aria-label="Main">
-            
-            <a href="http://localhost:1313/blog/"
-               class="pi-nav-link">Blog</a>
-            
-        </nav>
-
-        <div class="pi-nav-meta">
-            <div id="local-time" class="pi-nav-time" aria-live="polite"></div>
-
-            <button type="button" class="pi-theme-toggle" data-theme-toggle aria-label="Toggle theme">
-                <svg class="w-4 h-4" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.7519 15.0021C20.597 15.484 19.3296 15.7501 18 15.7501C12.6152 15.7501 8.25 11.3849 8.25 6.00011C8.25 4.67052 8.51614 3.40308 8.99806 2.24817C5.47566 3.71798 3 7.19493 3 11.2501C3 16.6349 7.36522 21.0001 12.75 21.0001C16.8052 21.0001 20.2821 18.5245 21.7519 15.0021Z"/>
-                </svg>
-            </button>
-
-            <button type="button" id="mobile-menu-button" class="pi-menu-btn" aria-label="Open menu" aria-expanded="false">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                </svg>
-            </button>
-        </div>
-    </div>
-</header>
-
-<div id="mobile-menu" class="pi-mobile-menu" aria-hidden="true">
-    <div class="pi-mobile-menu-panel">
-        <div class="flex justify-between items-center">
-            <span class="font-mono text-sm text-pi-muted uppercase tracking-widest">Menu</span>
-            <div class="flex items-center gap-3">
-                <button type="button" class="pi-theme-toggle" data-theme-toggle aria-label="Toggle theme">
-                    <svg class="w-4 h-4" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.7519 15.0021C20.597 15.484 19.3296 15.7501 18 15.7501C12.6152 15.7501 8.25 11.3849 8.25 6.00011C8.25 4.67052 8.51614 3.40308 8.99806 2.24817C5.47566 3.71798 3 7.19493 3 11.2501C3 16.6349 7.36522 21.0001 12.75 21.0001C16.8052 21.0001 20.2821 18.5245 21.7519 15.0021Z"/>
-                    </svg>
-                </button>
-                <button type="button" id="mobile-menu-close" class="pi-menu-btn" aria-label="Close menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        <nav class="pi-mobile-menu-links" aria-label="Mobile">
-            
-            <a href="http://localhost:1313/blog/"
-               class="pi-nav-link"
-               data-menu-link>Blog</a>
-            
-        </nav>
-
-        <div class="mt-auto pt-8 text-center">
-            <span class="font-mono text-xs text-pi-muted">Local Time: </span>
-            <span id="mobile-local-time" class="font-mono text-xs text-pi-muted"></span>
-        </div>
-    </div>
-</div>
-
-<script>
-(function () {
-  function updateLocalTime() {
-    const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    document.querySelectorAll('#local-time, #mobile-local-time').forEach((el) => {
-      if (el) el.textContent = timeString;
-    });
-  }
-  updateLocalTime();
-  setInterval(updateLocalTime, 1000);
-
-  const mobileMenu = document.getElementById('mobile-menu');
-  const mobileMenuButton = document.getElementById('mobile-menu-button');
-  const mobileMenuClose = document.getElementById('mobile-menu-close');
-
-  function openMobileMenu() {
-    mobileMenu.classList.add('is-open');
-    mobileMenu.setAttribute('aria-hidden', 'false');
-    mobileMenuButton?.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeMobileMenu() {
-    mobileMenu.classList.remove('is-open');
-    mobileMenu.setAttribute('aria-hidden', 'true');
-    mobileMenuButton?.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
-  }
-
-  mobileMenuButton?.addEventListener('click', openMobileMenu);
-  mobileMenuClose?.addEventListener('click', closeMobileMenu);
-
-  document.querySelectorAll('[data-menu-link]').forEach((link) => {
-    link.addEventListener('click', closeMobileMenu);
-  });
-
-  mobileMenu?.addEventListener('click', (event) => {
-    if (event.target === mobileMenu) closeMobileMenu();
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && mobileMenu?.classList.contains('is-open')) {
-      closeMobileMenu();
-    }
-  });
-
-  document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      if (window.innerWidth < 768) closeMobileMenu();
-    });
-  });
-})();
-</script>
-
             <main class="page-shell">
                 
-<div class="py-4">
+<div class="pi-harness-shell">
     <section class="pi-hero-terminal" aria-label="Portfolio terminal">
         <h1 class="pi-hero-terminal__sr-only">Yassine Cherair</h1>
         
@@ -232,6 +112,16 @@
   <div class="pi-terminal-frame">
     <div class="pi-terminal-strip">
       <span class="pi-terminal-strip__label" data-terminal-title>yc@portfolio — harness</span>
+      <div class="pi-terminal-strip__controls">
+        
+        <a href="https://github.com/yassinech-99" class="pi-terminal-strip__link" target="_blank" rel="noopener noreferrer">github</a>
+        
+        <button type="button" class="pi-terminal-strip__theme pi-theme-toggle" data-theme-toggle aria-label="Toggle theme">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.7519 15.0021C20.597 15.484 19.3296 15.7501 18 15.7501C12.6152 15.7501 8.25 11.3849 8.25 6.00011C8.25 4.67052 8.51614 3.40308 8.99806 2.24817C5.47566 3.71798 3 7.19493 3 11.2501C3 16.6349 7.36522 21.0001 12.75 21.0001C16.8052 21.0001 20.2821 18.5245 21.7519 15.0021Z"/>
+          </svg>
+        </button>
+      </div>
     </div>
 
     <div class="pi-terminal-scroll" data-terminal-scroll>
@@ -281,27 +171,14 @@
     </form>
   </div>
 
-  <script type="application/json" data-terminal-context>"{\"author\":{\"description\":\"The overlap between security, software, and AI is where most of my interesting problems live.\",\"email\":\"yassinecherair@gmail.com\",\"github\":\"https://github.com/yassinech-99\",\"linkedin\":\"https://linkedin.com/in/yassine-cherair\",\"location\":\"Algeria.md\",\"name\":\"Yassine Cherair\"},\"boot_hints\":{\"lines\":[\"/whoami  /experience  /skills  /projects  /blog  /hireme\",\"/usage  /clear  /help\"]},\"budget\":{\"base_cost\":400,\"chars_per_token\":2,\"clear_cost\":50,\"currency\":\"DZD\",\"dzd_per_1k_tokens\":8.5,\"total_tokens\":50000,\"usage_cost\":80},\"commands\":[{\"description\":\"List all slash commands\",\"name\":\"help\"},{\"description\":\"About Yassine\",\"name\":\"whoami\"},{\"description\":\"Work history\",\"name\":\"experience\"},{\"description\":\"Tech stack\",\"name\":\"skills\"},{\"description\":\"Selected projects\",\"name\":\"projects\"},{\"description\":\"Browse and read posts in-terminal\",\"name\":\"blog\"},{\"description\":\"Contact \\u0026 links\",\"name\":\"hireme\"},{\"description\":\"Token budget \\u0026 session stats\",\"name\":\"usage\"},{\"description\":\"Clear terminal scrollback\",\"name\":\"clear\"}],\"exhausted\":{\"lines\":[{\"text\":\"billing error: quota exceeded\",\"type\":\"warn\"},{\"text\":\"yassine has an unpaid bill. harness suspended until finance approves.\",\"type\":\"agent\"},{\"text\":\"refresh the page to reset your free tier. or try /hireme to negotiate.\",\"type\":\"dim\"},{\"text\":\"(this is a joke — you're on the static site free tier)\",\"type\":\"success\"}]},\"experience\":[{\"company\":\"Huawei\",\"company_link\":\"https://www.huawei.com\",\"country\":\"Algiers, DZ\",\"description\":\"Product security on Huawei Cloud Stack (HCS) deployments.\",\"period\":\"Sep 2025 – Present\",\"role\":\"Technical Product Engineer – HCS Security\"},{\"company\":\"Cinématique\",\"company_link\":\"https://cinematique.co/\",\"country\":\"Paris, FR (Remote)\",\"description\":\"Built and maintained custom RunPod serverless worker images for ComfyUI-based image and video generation pipelines, running models including Wan2.2-Animate 14B, ViTPose, YOLOv10, and SeC-4B. Designed base Docker images that all other worker images base from, standardized CUDA setup, dependencies, and entrypoints. Automated model downloads from HuggingFace and CivitAI into RunPod network volumes, containers attach pre-loaded volumes instead of pulling models on every cold start. Tested and validated end-to-end inference pipelines covering pose estimation, video segmentation, VAE decode, and multi-LoRA video generation.\",\"period\":\"Oct 2025 – Feb 2026\",\"role\":\"GENAI Platform Engineer (Freelance)\"},{\"company\":\"InfraXcode\",\"company_link\":\"https://infraxcode.com/\",\"country\":\"Paris, FR (Remote)\",\"description\":\"Built an LLM-backed network device emulator as part of an R\\u0026D platform that allowed NetDevOps and development teams to launch stateful emulated devices instead of provisioning physical sandboxes, enabling them to connect management planes and run Infrastructure-as-Code and configuration management workflows directly on top of the emulator. The agent roleplayed as a real network device by maintaining session state and grounding responses using vendor CLI documentation and YANG specifications through a RAG + BM25 pipeline. I implemented both the SSH server and RESTCONF server from scratch, allowing existing Ansible playbooks and Terraform providers to connect without modification, and the NetOps team successfully executed real automation scripts against it with roughly 80% output parity compared to physical hardware. Major engineering challenges included persistent session state management across runs (evaluating local file storage versus Neo4j), handling context window overflow through a summarization node that compressed conversation history while preserving operational state, improving response accuracy through retrieval tuning and prompt engineering, and addressing latency tradeoffs inherent to token generation. On the same platform, I also developed a test-case orchestration system where engineers could define automation scripts alongside multiple simulated device states such as closed SSH ports, invalid credentials, or missing configurations; the orchestrator dynamically spawned emulated devices for each scenario, executed the scripts, and returned side-by-side results to expose failure cases before deployment to production hardware. Midway through the project, I migrated the platform away from external LLM providers such as OpenAI and Groq by deploying locally hosted fine-tuned Llama models through Hugging Face and Ollama, removing third-party API dependencies and improving inference latency.\",\"period\":\"Sep 2023 – Mar 2025\",\"role\":\"GENAI Developer → NetDevOps Engineer\"}],\"posts\":[{\"body\":\"Welcome to the nano-style reader.\\nThis post is rendered as plain text inside the portfolio harness. Use the arrow keys to scroll, and press Esc or q to return to the post list.\\nWhy read blogs in a terminal? It keeps the Pi.dev aesthetic consistent: one surface for commands, experience, projects, and writing—without leaving the harness.\\nLine three of filler content so you can test scrolling in a longer document. Line four continues the scroll test. Line five continues the scroll test. Line six continues the scroll test. Line seven continues the scroll test. Line eight continues the scroll test. Line nine continues the scroll test. Line ten continues the scroll test.\\nThe end.\\n\",\"date\":\"2026-05-01\",\"slug\":\"hello\",\"summary\":\"A sample post to test the in-terminal blog reader.\",\"title\":\"Hello from the terminal\"}],\"projects\":[{\"description\":\"LLM that roleplays as a real network device — SSH + RESTCONF interfaces, session state, YANG/CLI grounding via RAG. Ansible playbooks and Terraform providers connect with no changes. ~80% output match vs real hardware.\",\"highlight\":true,\"image\":\"/images/yc-thumb.svg\",\"link\":\"#\",\"tech\":\"Python,LangChain,Neo4j,FastAPI,RAG,BM25,Ollama\",\"title\":\"AI-Powered Network Device Emulator\"},{\"description\":\"Isolated execution environment for LLM agents. Each run spins up a fresh Docker container with gVisor (runsc) kernel-level isolation, captures stdout/stderr, and tears down. Exposed as a LangChain tool with configurable resource limits.\",\"image\":\"/images/yc-thumb.svg\",\"link\":\"#\",\"tech\":\"Python,Docker,gVisor,DeepAgents\",\"title\":\"Sandboxed Code Execution for AI Agents\"},{\"description\":\"MCPs for AI agents to audit AWS environments, VirusTotal, and more.\",\"image\":\"/images/yc-thumb.svg\",\"link\":\"#\",\"tech\":\"Python,MCP,boto3,AWS,VirusTotal API\",\"title\":\"MCPs for AI agents\"},{\"description\":\"Chat with your network devices using natural language. You describe the change, the agent generates and applies the config to real devices.\",\"image\":\"/images/yc-thumb.svg\",\"link\":\"#\",\"tech\":\"Python,LangChain,FastAPI,Paramiko,REST\",\"title\":\"Chat with your network devices\"}],\"site\":{\"title\":\"Yassine Cherair\"},\"skills\":{\"categories\":[{\"emoji\":\"⌨️\",\"items\":[{\"icon\":\"devicon-python-plain\",\"name\":\"Python\"},{\"icon\":\"devicon-go-plain\",\"name\":\"Go\"},{\"icon\":\"devicon-bash-plain\",\"name\":\"Bash\"},{\"name\":\"PowerShell\"},{\"icon\":\"devicon-typescript-plain\",\"name\":\"TypeScript\"}],\"name\":\"Languages\"},{\"emoji\":\"⚙️\",\"items\":[{\"icon\":\"devicon-fastapi-plain\",\"name\":\"FastAPI\"},{\"icon\":\"devicon-django-plain\",\"name\":\"Django\"}],\"name\":\"Backend\"},{\"emoji\":\"☁️\",\"items\":[{\"icon\":\"devicon-amazonwebservices-plain-wordmark\",\"name\":\"AWS\"},{\"icon\":\"devicon-azure-plain\",\"name\":\"Azure\"},{\"icon\":\"devicon-googlecloud-plain\",\"name\":\"GCP\"},{\"name\":\"Huawei HCS\"}],\"name\":\"Cloud\"},{\"emoji\":\"🏗️\",\"items\":[{\"icon\":\"devicon-docker-plain\",\"name\":\"Docker\"},{\"icon\":\"devicon-kubernetes-plain\",\"name\":\"Kubernetes\"},{\"icon\":\"devicon-terraform-plain\",\"name\":\"Terraform\"},{\"icon\":\"devicon-ansible-plain\",\"name\":\"Ansible\"},{\"name\":\"AWX\"},{\"name\":\"NetBox\"},{\"icon\":\"devicon-github-original\",\"name\":\"GitHub\"},{\"icon\":\"devicon-gitlab-plain\",\"name\":\"GitLab\"},{\"name\":\"GHCR\"}],\"name\":\"DevOps \\u0026 Infrastructure\"},{\"emoji\":\"🗄️\",\"items\":[{\"icon\":\"devicon-neo4j-plain\",\"name\":\"Neo4j\"},{\"icon\":\"devicon-postgresql-plain\",\"name\":\"PostgreSQL\"},{\"icon\":\"devicon-supabase-plain\",\"name\":\"Supabase\"}],\"name\":\"Databases\"},{\"emoji\":\"🔗\",\"items\":[{\"name\":\"LangChain\"},{\"name\":\"SmolAgents\"},{\"name\":\"HuggingFace\"},{\"name\":\"Ollama\"},{\"icon\":\"devicon-pytorch-original\",\"name\":\"PyTorch\"},{\"name\":\"CrewAI\"}],\"name\":\"AI Frameworks\"},{\"emoji\":\"🤖\",\"items\":[{\"icon\":\"devicon-amazonwebservices-plain-wordmark\",\"name\":\"Amazon Bedrock\"},{\"icon\":\"devicon-googlecloud-plain\",\"name\":\"Google ADK\"},{\"name\":\"RunPod\"}],\"name\":\"AI Platforms\"},{\"emoji\":\"⚔️\",\"items\":[{\"name\":\"OWASP Web Top 10\"},{\"name\":\"OWASP LLM Top 10\"},{\"name\":\"OWASP API Top 10\"},{\"name\":\"Trivy\"},{\"name\":\"Synk\"},{\"name\":\"SAST\"},{\"name\":\"DAST\"},{\"name\":\"SCA\"},{\"name\":\"Detection Engineering \\u0026 SIEMs\"}],\"name\":\"Security\"}]},\"tech\":{\"row1\":[{\"icon\":\"devicon-python-plain\",\"name\":\"Python\"},{\"icon\":\"devicon-go-plain\",\"name\":\"Go\"},{\"icon\":\"devicon-bash-plain\",\"name\":\"Bash\"},{\"icon\":\"\",\"name\":\"PowerShell\"},{\"icon\":\"devicon-typescript-plain\",\"name\":\"TypeScript\"},{\"icon\":\"devicon-fastapi-plain\",\"name\":\"FastAPI\"},{\"icon\":\"devicon-django-plain\",\"name\":\"Django\"},{\"icon\":\"devicon-amazonwebservices-plain-wordmark\",\"name\":\"AWS\"},{\"icon\":\"devicon-azure-plain\",\"name\":\"Azure\"},{\"icon\":\"devicon-googlecloud-plain\",\"name\":\"GCP\"},{\"icon\":\"\",\"name\":\"Huawei HCS\"},{\"icon\":\"devicon-docker-plain\",\"name\":\"Docker\"},{\"icon\":\"devicon-kubernetes-plain\",\"name\":\"Kubernetes\"},{\"icon\":\"devicon-terraform-plain\",\"name\":\"Terraform\"},{\"icon\":\"devicon-ansible-plain\",\"name\":\"Ansible\"},{\"icon\":\"\",\"name\":\"AWX\"},{\"icon\":\"\",\"name\":\"NetBox\"},{\"icon\":\"devicon-github-original\",\"name\":\"GitHub\"},{\"icon\":\"devicon-gitlab-plain\",\"name\":\"GitLab\"},{\"icon\":\"\",\"name\":\"GHCR\"},{\"icon\":\"devicon-neo4j-plain\",\"name\":\"Neo4j\"},{\"icon\":\"devicon-postgresql-plain\",\"name\":\"PostgreSQL\"},{\"icon\":\"devicon-supabase-plain\",\"name\":\"Supabase\"}],\"row2\":[{\"icon\":\"\",\"name\":\"LangChain\"},{\"icon\":\"\",\"name\":\"SmolAgents\"},{\"icon\":\"\",\"name\":\"HuggingFace\"},{\"icon\":\"\",\"name\":\"Ollama\"},{\"icon\":\"devicon-pytorch-original\",\"name\":\"PyTorch\"},{\"icon\":\"\",\"name\":\"CrewAI\"},{\"icon\":\"devicon-amazonwebservices-plain-wordmark\",\"name\":\"Amazon Bedrock\"},{\"icon\":\"devicon-googlecloud-plain\",\"name\":\"Google ADK\"},{\"icon\":\"\",\"name\":\"RunPod\"},{\"icon\":\"\",\"name\":\"OWASP Web Top 10\"},{\"icon\":\"\",\"name\":\"OWASP LLM Top 10\"},{\"icon\":\"\",\"name\":\"OWASP API Top 10\"},{\"icon\":\"\",\"name\":\"Trivy\"},{\"icon\":\"\",\"name\":\"Synk\"},{\"icon\":\"\",\"name\":\"SAST\"},{\"icon\":\"\",\"name\":\"DAST\"},{\"icon\":\"\",\"name\":\"SCA\"},{\"icon\":\"\",\"name\":\"Detection Engineering \\u0026 SIEMs\"}]},\"welcome\":{\"lines\":[\"Portfolio harness v1 · local REPL · no API keys required.\",\"Type /help for slash commands. Session budget shown in the footer · type /usage for details.\"],\"window_title\":\"yc@portfolio — harness\"}}"</script>
+  <script type="application/json" data-terminal-context>"{\"author\":{\"description\":\"The overlap between security, software, and AI is where most of my interesting problems live.\",\"email\":\"yassinecherair@gmail.com\",\"github\":\"https://github.com/yassinech-99\",\"linkedin\":\"https://linkedin.com/in/yassine-cherair\",\"location\":\"Algeria.md\",\"name\":\"Yassine Cherair\"},\"boot_hints\":{\"lines\":[\"/whoami  /experience  /skills  /projects  /blog  /hireme\",\"/usage  /clear  /help\"]},\"budget\":{\"base_cost\":400,\"chars_per_token\":2,\"clear_cost\":50,\"currency\":\"DZD\",\"dzd_per_1k_tokens\":8.5,\"total_tokens\":50000,\"usage_cost\":80},\"commands\":[{\"description\":\"List all slash commands\",\"name\":\"help\"},{\"description\":\"About Yassine\",\"name\":\"whoami\"},{\"description\":\"Work history\",\"name\":\"experience\"},{\"description\":\"Tech stack\",\"name\":\"skills\"},{\"description\":\"Selected projects\",\"name\":\"projects\"},{\"description\":\"Browse and read posts in-terminal\",\"name\":\"blog\"},{\"description\":\"Contact \\u0026 links\",\"name\":\"hireme\"},{\"description\":\"Token budget \\u0026 session stats\",\"name\":\"usage\"},{\"description\":\"Clear terminal scrollback\",\"name\":\"clear\"}],\"exhausted\":{\"lines\":[{\"text\":\"billing error: quota exceeded\",\"type\":\"warn\"},{\"text\":\"yassine has an unpaid bill. harness suspended until finance approves.\",\"type\":\"agent\"},{\"text\":\"refresh the page to reset your free tier. or try /hireme to negotiate.\",\"type\":\"dim\"},{\"text\":\"(this is a joke — you're on the static site free tier)\",\"type\":\"success\"}]},\"experience\":[{\"company\":\"Huawei\",\"company_link\":\"https://www.huawei.com\",\"country\":\"Algiers, DZ\",\"description\":\"Product security on Huawei Cloud Stack (HCS) deployments.\",\"period\":\"Sep 2025 – Present\",\"role\":\"Technical Product Engineer – HCS Security\"},{\"company\":\"Cinématique\",\"company_link\":\"https://cinematique.co/\",\"country\":\"Paris, FR (Remote)\",\"description\":\"Built and maintained custom RunPod serverless worker images for ComfyUI-based image and video generation pipelines, running models including Wan2.2-Animate 14B, ViTPose, YOLOv10, and SeC-4B. Designed base Docker images that all other worker images base from, standardized CUDA setup, dependencies, and entrypoints. Automated model downloads from HuggingFace and CivitAI into RunPod network volumes, containers attach pre-loaded volumes instead of pulling models on every cold start. Tested and validated end-to-end inference pipelines covering pose estimation, video segmentation, VAE decode, and multi-LoRA video generation.\",\"period\":\"Oct 2025 – Feb 2026\",\"role\":\"GENAI Platform Engineer (Freelance)\"},{\"company\":\"InfraXcode\",\"company_link\":\"https://infraxcode.com/\",\"country\":\"Paris, FR (Remote)\",\"description\":\"Built an LLM-backed network device emulator as part of an R\\u0026D platform that allowed NetDevOps and development teams to launch stateful emulated devices instead of provisioning physical sandboxes, enabling them to connect management planes and run Infrastructure-as-Code and configuration management workflows directly on top of the emulator. The agent roleplayed as a real network device by maintaining session state and grounding responses using vendor CLI documentation and YANG specifications through a RAG + BM25 pipeline. I implemented both the SSH server and RESTCONF server from scratch, allowing existing Ansible playbooks and Terraform providers to connect without modification, and the NetOps team successfully executed real automation scripts against it with roughly 80% output parity compared to physical hardware. Major engineering challenges included persistent session state management across runs (evaluating local file storage versus Neo4j), handling context window overflow through a summarization node that compressed conversation history while preserving operational state, improving response accuracy through retrieval tuning and prompt engineering, and addressing latency tradeoffs inherent to token generation. On the same platform, I also developed a test-case orchestration system where engineers could define automation scripts alongside multiple simulated device states such as closed SSH ports, invalid credentials, or missing configurations; the orchestrator dynamically spawned emulated devices for each scenario, executed the scripts, and returned side-by-side results to expose failure cases before deployment to production hardware. Midway through the project, I migrated the platform away from external LLM providers such as OpenAI and Groq by deploying locally hosted fine-tuned Llama models through Hugging Face and Ollama, removing third-party API dependencies and improving inference latency.\",\"period\":\"Sep 2023 – Mar 2025\",\"role\":\"GENAI Developer → NetDevOps Engineer\"}],\"posts\":[{\"body\":\"Welcome to the nano-style reader.\\nThis post is rendered as plain text inside the portfolio harness. Use the arrow keys to scroll, and press Esc or q to return to the post list.\\nWhy read blogs in a terminal? It keeps the Pi.dev aesthetic consistent: one surface for commands, experience, projects, and writing—without leaving the harness.\\nLine three of filler content so you can test scrolling in a longer document. Line four continues the scroll test. Line five continues the scroll test. Line six continues the scroll test. Line seven continues the scroll test. Line eight continues the scroll test. Line nine continues the scroll test. Line ten continues the scroll test.\\nThe end.\\n\",\"date\":\"2026-05-01\",\"slug\":\"hello\",\"summary\":\"A sample post to test the in-terminal blog reader.\",\"title\":\"Hello from the terminal\"}],\"projects\":[{\"description\":\"LLM that roleplays as a real network device — SSH + RESTCONF interfaces, session state, YANG/CLI grounding via RAG. Ansible playbooks and Terraform providers connect with no changes. ~80% output match vs real hardware.\",\"highlight\":true,\"image\":\"/images/yc-thumb.svg\",\"link\":\"#\",\"tech\":\"Python,LangChain,Neo4j,FastAPI,RAG,BM25,Ollama\",\"title\":\"AI-Powered Network Device Emulator\"},{\"description\":\"Isolated execution environment for LLM agents. Each run spins up a fresh Docker container with gVisor (runsc) kernel-level isolation, captures stdout/stderr, and tears down. Exposed as a LangChain tool with configurable resource limits.\",\"image\":\"/images/yc-thumb.svg\",\"link\":\"#\",\"tech\":\"Python,Docker,gVisor,DeepAgents\",\"title\":\"Sandboxed Code Execution for AI Agents\"},{\"description\":\"MCPs for AI agents to audit AWS environments, VirusTotal, and more.\",\"image\":\"/images/yc-thumb.svg\",\"link\":\"#\",\"tech\":\"Python,MCP,boto3,AWS,VirusTotal API\",\"title\":\"MCPs for AI agents\"},{\"description\":\"Chat with your network devices using natural language. You describe the change, the agent generates and applies the config to real devices.\",\"image\":\"/images/yc-thumb.svg\",\"link\":\"#\",\"tech\":\"Python,LangChain,FastAPI,Paramiko,REST\",\"title\":\"Chat with your network devices\"}],\"site\":{\"baseURL\":\"http://localhost:1313/\",\"title\":\"Yassine Cherair\"},\"skills\":{\"categories\":[{\"emoji\":\"⌨️\",\"items\":[{\"icon\":\"devicon-python-plain\",\"name\":\"Python\"},{\"icon\":\"devicon-go-plain\",\"name\":\"Go\"},{\"icon\":\"devicon-bash-plain\",\"name\":\"Bash\"},{\"name\":\"PowerShell\"},{\"icon\":\"devicon-typescript-plain\",\"name\":\"TypeScript\"}],\"name\":\"Languages\"},{\"emoji\":\"⚙️\",\"items\":[{\"icon\":\"devicon-fastapi-plain\",\"name\":\"FastAPI\"},{\"icon\":\"devicon-django-plain\",\"name\":\"Django\"}],\"name\":\"Backend\"},{\"emoji\":\"☁️\",\"items\":[{\"icon\":\"devicon-amazonwebservices-plain-wordmark\",\"name\":\"AWS\"},{\"icon\":\"devicon-azure-plain\",\"name\":\"Azure\"},{\"icon\":\"devicon-googlecloud-plain\",\"name\":\"GCP\"},{\"name\":\"Huawei HCS\"}],\"name\":\"Cloud\"},{\"emoji\":\"🏗️\",\"items\":[{\"icon\":\"devicon-docker-plain\",\"name\":\"Docker\"},{\"icon\":\"devicon-kubernetes-plain\",\"name\":\"Kubernetes\"},{\"icon\":\"devicon-terraform-plain\",\"name\":\"Terraform\"},{\"icon\":\"devicon-ansible-plain\",\"name\":\"Ansible\"},{\"name\":\"AWX\"},{\"name\":\"NetBox\"},{\"icon\":\"devicon-github-original\",\"name\":\"GitHub\"},{\"icon\":\"devicon-gitlab-plain\",\"name\":\"GitLab\"},{\"name\":\"GHCR\"}],\"name\":\"DevOps \\u0026 Infrastructure\"},{\"emoji\":\"🗄️\",\"items\":[{\"icon\":\"devicon-neo4j-plain\",\"name\":\"Neo4j\"},{\"icon\":\"devicon-postgresql-plain\",\"name\":\"PostgreSQL\"},{\"icon\":\"devicon-supabase-plain\",\"name\":\"Supabase\"}],\"name\":\"Databases\"},{\"emoji\":\"🔗\",\"items\":[{\"name\":\"LangChain\"},{\"name\":\"SmolAgents\"},{\"name\":\"HuggingFace\"},{\"name\":\"Ollama\"},{\"icon\":\"devicon-pytorch-original\",\"name\":\"PyTorch\"},{\"name\":\"CrewAI\"}],\"name\":\"AI Frameworks\"},{\"emoji\":\"🤖\",\"items\":[{\"icon\":\"devicon-amazonwebservices-plain-wordmark\",\"name\":\"Amazon Bedrock\"},{\"icon\":\"devicon-googlecloud-plain\",\"name\":\"Google ADK\"},{\"name\":\"RunPod\"}],\"name\":\"AI Platforms\"},{\"emoji\":\"⚔️\",\"items\":[{\"name\":\"OWASP Web Top 10\"},{\"name\":\"OWASP LLM Top 10\"},{\"name\":\"OWASP API Top 10\"},{\"name\":\"Trivy\"},{\"name\":\"Synk\"},{\"name\":\"SAST\"},{\"name\":\"DAST\"},{\"name\":\"SCA\"},{\"name\":\"Detection Engineering \\u0026 SIEMs\"}],\"name\":\"Security\"}]},\"tech\":{\"row1\":[{\"icon\":\"devicon-python-plain\",\"name\":\"Python\"},{\"icon\":\"devicon-go-plain\",\"name\":\"Go\"},{\"icon\":\"devicon-bash-plain\",\"name\":\"Bash\"},{\"icon\":\"\",\"name\":\"PowerShell\"},{\"icon\":\"devicon-typescript-plain\",\"name\":\"TypeScript\"},{\"icon\":\"devicon-fastapi-plain\",\"name\":\"FastAPI\"},{\"icon\":\"devicon-django-plain\",\"name\":\"Django\"},{\"icon\":\"devicon-amazonwebservices-plain-wordmark\",\"name\":\"AWS\"},{\"icon\":\"devicon-azure-plain\",\"name\":\"Azure\"},{\"icon\":\"devicon-googlecloud-plain\",\"name\":\"GCP\"},{\"icon\":\"\",\"name\":\"Huawei HCS\"},{\"icon\":\"devicon-docker-plain\",\"name\":\"Docker\"},{\"icon\":\"devicon-kubernetes-plain\",\"name\":\"Kubernetes\"},{\"icon\":\"devicon-terraform-plain\",\"name\":\"Terraform\"},{\"icon\":\"devicon-ansible-plain\",\"name\":\"Ansible\"},{\"icon\":\"\",\"name\":\"AWX\"},{\"icon\":\"\",\"name\":\"NetBox\"},{\"icon\":\"devicon-github-original\",\"name\":\"GitHub\"},{\"icon\":\"devicon-gitlab-plain\",\"name\":\"GitLab\"},{\"icon\":\"\",\"name\":\"GHCR\"},{\"icon\":\"devicon-neo4j-plain\",\"name\":\"Neo4j\"},{\"icon\":\"devicon-postgresql-plain\",\"name\":\"PostgreSQL\"},{\"icon\":\"devicon-supabase-plain\",\"name\":\"Supabase\"}],\"row2\":[{\"icon\":\"\",\"name\":\"LangChain\"},{\"icon\":\"\",\"name\":\"SmolAgents\"},{\"icon\":\"\",\"name\":\"HuggingFace\"},{\"icon\":\"\",\"name\":\"Ollama\"},{\"icon\":\"devicon-pytorch-original\",\"name\":\"PyTorch\"},{\"icon\":\"\",\"name\":\"CrewAI\"},{\"icon\":\"devicon-amazonwebservices-plain-wordmark\",\"name\":\"Amazon Bedrock\"},{\"icon\":\"devicon-googlecloud-plain\",\"name\":\"Google ADK\"},{\"icon\":\"\",\"name\":\"RunPod\"},{\"icon\":\"\",\"name\":\"OWASP Web Top 10\"},{\"icon\":\"\",\"name\":\"OWASP LLM Top 10\"},{\"icon\":\"\",\"name\":\"OWASP API Top 10\"},{\"icon\":\"\",\"name\":\"Trivy\"},{\"icon\":\"\",\"name\":\"Synk\"},{\"icon\":\"\",\"name\":\"SAST\"},{\"icon\":\"\",\"name\":\"DAST\"},{\"icon\":\"\",\"name\":\"SCA\"},{\"icon\":\"\",\"name\":\"Detection Engineering \\u0026 SIEMs\"}]},\"welcome\":{\"lines\":[\"This site is the harness — type slash commands to explore.\",\"Web articles live at /blog/ · read in-terminal with /blog.\",\"Session budget in the footer · type /usage for details.\"],\"window_title\":\"yc@portfolio — harness\"}}"</script>
 </div>
 
     </section>
 </div>
 
             </main>
-            <footer class="pi-footer">
-    
-    
-    
-    <p>© 2026 Yassine Cherair</p>
-    <p>
-        Built using
-        <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a>.
-        Take a look at my
-        <a href="https://github.com/yassinech-99" target="_blank" rel="noopener noreferrer">GitHub</a>
-    </p>
-    
-</footer>
-
+            
         </div>
     </body>
 </html>

@@ -33,7 +33,7 @@
   "commands" ($terminalData.commands | default (slice))
   "budget" ($terminalData.budget | default dict)
   "exhausted" (dict "lines" ($terminalData.exhausted.lines | default (slice)))
-  "site" (dict "title" $ctx.Site.Title)
+  "site" (dict "title" $ctx.Site.Title "baseURL" $ctx.Site.BaseURL)
   "posts" $posts
 }}
 
@@ -47,6 +47,16 @@
   <div class="pi-terminal-frame">
     <div class="pi-terminal-strip">
       <span class="pi-terminal-strip__label" data-terminal-title>{{ $terminalData.welcome.window_title | default "yc@portfolio — harness" }}</span>
+      <div class="pi-terminal-strip__controls">
+        {{ with $author.github }}
+        <a href="{{ . }}" class="pi-terminal-strip__link" target="_blank" rel="noopener noreferrer">github</a>
+        {{ end }}
+        <button type="button" class="pi-terminal-strip__theme pi-theme-toggle" data-theme-toggle aria-label="Toggle theme">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.7519 15.0021C20.597 15.484 19.3296 15.7501 18 15.7501C12.6152 15.7501 8.25 11.3849 8.25 6.00011C8.25 4.67052 8.51614 3.40308 8.99806 2.24817C5.47566 3.71798 3 7.19493 3 11.2501C3 16.6349 7.36522 21.0001 12.75 21.0001C16.8052 21.0001 20.2821 18.5245 21.7519 15.0021Z"/>
+          </svg>
+        </button>
+      </div>
     </div>
 
     <div class="pi-terminal-scroll" data-terminal-scroll>

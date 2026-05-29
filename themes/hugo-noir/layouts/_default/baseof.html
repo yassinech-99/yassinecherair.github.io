@@ -73,13 +73,13 @@
         <script src="{{ $terminalJs.RelPermalink }}" defer></script>
         {{ end }}
     </head>
-    <body class="min-h-screen font-serif text-pi{{ if .IsHome }} page-home-harness{{ end }}">
+    <body class="min-h-screen font-serif text-pi{{ if .IsHome }} page-home-harness page-harness-only{{ end }}">
         <div class="site-tilt-layer">
-            {{ partial "header" . }}
+            {{ if not .IsHome }}{{ partial "header" . }}{{ end }}
             <main class="page-shell">
                 {{ block "main" . }}{{ end }}
             </main>
-            {{ partial "footer" . }}
+            {{ if not .IsHome }}{{ partial "footer" . }}{{ end }}
         </div>
     </body>
 </html>

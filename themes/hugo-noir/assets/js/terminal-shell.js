@@ -543,6 +543,13 @@
       const reader = document.createElement("div");
       reader.className = "pi-terminal-reader";
 
+      const baseUrl = String(this.ctx.site?.baseURL || "").replace(/\/$/, "");
+      const webLine = document.createElement("div");
+      webLine.className = "pi-terminal-line pi-terminal-line--dim";
+      webLine.textContent = baseUrl
+        ? `w — open ${baseUrl}/blog/${post.slug}/ in browser`
+        : `w — open /blog/${post.slug}/ in browser`;
+
       const hint = document.createElement("div");
       hint.className = "pi-terminal-reader__hint pi-terminal-line pi-terminal-line--dim";
       hint.textContent = "esc · q back  ·  ↑↓ scroll  ·  g/G top/bottom";
@@ -556,6 +563,7 @@
       pre.textContent = post.body || "(empty post)";
 
       viewport.appendChild(pre);
+      reader.appendChild(webLine);
       reader.appendChild(hint);
       reader.appendChild(viewport);
       this.body.appendChild(reader);
@@ -768,7 +776,26 @@
       if (!this.exhausted) {
         this.input.disabled = false;
         this.input.focus();
+        this.tryOpenReadDeepLink();
       }
+    }
+
+    tryOpenReadDeepLink() {
+      const slug = new URLSearchParams(window.location.search).get("read");
+      if (!slug) return;
+
+      const posts = this.ctx.posts || [];
+      const post = posts.find((p) => p.slug === slug);
+      if (!post) return;
+
+      this.enterBlogList();
+      const idx = posts.findIndex((p) => p.slug === slug);
+      if (idx >= 0) this.blogIndex = idx;
+      this.openBlogReader(post);
+
+      const url = new URL(window.location.href);
+      url.searchParams.delete("read");
+      history.replaceState(null, "", url.pathname + url.hash);
     }
 
     async handleSubmit() {
