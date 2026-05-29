@@ -1,0 +1,45 @@
+{{ define "main" }}
+<div class="py-8 pi-content-wide">
+    <h1 class="pi-page-title">{{ .Title }}</h1>
+
+    <div class="pi-panel p-8 mb-12">
+        <div class="pi-prose text-lg">{{ .Content }}</div>
+    </div>
+
+    {{ $experienceData := index site.Data .Language.Lang "experience" }}
+    {{ with $experienceData.experience }}
+    <div class="pi-timeline">
+        {{ range . }}
+        <div class="pi-timeline-item">
+            <div class="pi-timeline-company">
+                {{ if .company_link }}
+                <a href="{{ .company_link }}" target="_blank" rel="noopener noreferrer">{{ .company }} ↗</a>
+                {{ else }}
+                {{ .company }}
+                {{ end }}
+            </div>
+            <p class="pi-timeline-role">{{ .role }}</p>
+            <p class="pi-timeline-period">{{ .period }}{{ if .country }} · {{ .country }}{{ end }}</p>
+            {{ if .description }}<p class="pi-timeline-desc">{{ .description }}</p>{{ end }}
+            {{ if .responsibilities }}
+            <ul class="mt-3 space-y-2" style="color: var(--copy); list-style: none; padding: 0">
+                {{ range .responsibilities }}
+                <li class="font-mono text-sm pl-4 border-l border-[var(--line)]">{{ . }}</li>
+                {{ end }}
+            </ul>
+            {{ end }}
+            {{ if .technologies }}
+            <div class="flex flex-wrap gap-2 mt-3">
+                {{ range .technologies }}
+                <span class="pi-chip">{{ . }}</span>
+                {{ end }}
+            </div>
+            {{ end }}
+        </div>
+        {{ end }}
+    </div>
+    {{ else }}
+    <p class="text-pi-muted font-mono text-sm">No experience data found.</p>
+    {{ end }}
+</div>
+{{ end }}

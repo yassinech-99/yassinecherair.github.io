@@ -1,0 +1,59 @@
+{{ define "main" }}
+<div class="py-8 pi-content-wide">
+    <h1 class="pi-page-title">{{ .Title }}</h1>
+
+    <div class="pi-panel p-8 mb-8">
+        <div class="pi-prose">{{ .Content }}</div>
+    </div>
+
+    {{ $certData := index site.Data .Language.Lang "certifications" }}
+    {{ $certs := cond (and $certData (isset $certData "certifications")) $certData.certifications (slice) }}
+
+    {{/* Honors/voluntary: use author.toml nested keys when present */}}
+    {{ $authorData := index site.Data .Language.Lang "author" }}
+
+    {{ with $authorData.honors }}
+    <section class="pi-section">
+        <span class="pi-section-label">Recognition</span>
+        <h2 class="pi-section-title mb-6">Honors & Awards</h2>
+        {{ range . }}
+        <div class="pi-cert-item mb-4">
+            <p class="font-mono text-xs text-pi-muted mb-1">{{ .institution }}</p>
+            <h3 class="font-serif text-lg text-pi">{{ .title }}</h3>
+            <p class="font-mono text-xs text-pi-muted mt-1">{{ .date }}</p>
+        </div>
+        {{ end }}
+    </section>
+    {{ end }}
+
+    {{ with $certs }}
+    <section class="pi-section">
+        <span class="pi-section-label">Credentials</span>
+        <h2 class="pi-section-title mb-6">Certifications</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {{ range . }}
+            <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="pi-panel p-4 block no-underline hover:border-[var(--accent-border-muted)]">
+                <h3 class="font-serif text-lg text-pi-accent mb-1">{{ .title }} ↗</h3>
+                <p class="font-mono text-xs text-pi-muted">{{ .date }}</p>
+            </a>
+            {{ end }}
+        </div>
+    </section>
+    {{ end }}
+
+    {{ with $authorData.voluntary }}
+    <section class="pi-section">
+        <span class="pi-section-label">Community</span>
+        <h2 class="pi-section-title mb-6">Voluntary Work</h2>
+        {{ range . }}
+        <div class="pi-cert-item mb-6">
+            <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="font-mono text-sm text-pi-accent">{{ .organization }} ↗</a>
+            <h3 class="font-serif text-lg text-pi mt-1">{{ .role }}</h3>
+            <p class="font-mono text-xs text-pi-muted">{{ .period }}</p>
+            <p class="mt-2" style="color: var(--copy)">{{ .description }}</p>
+        </div>
+        {{ end }}
+    </section>
+    {{ end }}
+</div>
+{{ end }}

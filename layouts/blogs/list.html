@@ -1,27 +1,35 @@
 {{ define "main" }}
-<div class="max-w-3xl mx-auto px-4 py-12">
-    <h1 class="text-5xl font-bold mb-12 text-text-primary-light dark:text-text-primary-dark">{{ .Title }}</h1>
+<div class="py-8 pi-content">
+    <h1 class="pi-page-title">{{ .Title }}</h1>
 
-    <div class="space-y-12">
-        {{ range .Pages.ByDate.Reverse }}
-        <div class="group">
-            <time class="text-sm text-gray-400 mb-2 block">{{ .Date.Format "January 2, 2006" }}</time>
-            <a href="{{ .RelPermalink }}" class="block">
-                <h3 class="text-xl font-semibold text-accent-light dark:text-accent-dark hover:text-text-primary-light dark:hover:text-text-primary-dark transition-colors duration-200 mb-2 inline-flex items-center gap-2">
-                    {{ .Title }}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-0 group-hover:opacity-100 transition-opacity -translate-x-1 group-hover:translate-x-0 duration-200"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </h3>
-            </a>
-            {{ with .Params.description }}
-            <p class="text-gray-400 mb-4 leading-relaxed">{{ . }}</p>
+    {{ range .Pages.ByDate.Reverse }}
+    <article class="pi-blog-item">
+        <time class="pi-blog-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+        <a href="{{ .RelPermalink }}" class="pi-blog-title">{{ .Title }}</a>
+        {{ with .Params.description }}
+        <p class="mt-2" style="color: var(--copy)">{{ . }}</p>
+        {{ end }}
+        <div class="flex flex-wrap gap-2 mt-3">
+            {{ range .Params.tags }}
+            <span class="pi-chip">{{ . }}</span>
             {{ end }}
-            <div class="flex flex-wrap gap-2">
-                {{ range .Params.tags }}
-                <span class="px-2 py-0.5 text-xs bg-bg-primary-light dark:bg-bg-tertiary-dark text-text-secondary-light dark:text-text-secondary-dark border border-border-primary-light dark:border-border-primary-dark rounded-md">{{ . }}</span>
-                {{ end }}
-            </div>
         </div>
+    </article>
+    {{ end }}
+
+    {{ $blogsData := index site.Data .Language.Lang "blogs" }}
+    {{ with $blogsData.blogs }}
+    <div class="mt-12 pt-8 border-t" style="border-color: var(--line)">
+        <span class="pi-section-label">External</span>
+        <h2 class="pi-section-title mb-6 mt-2">Also on the web</h2>
+        {{ range . }}
+        <article class="pi-blog-item">
+            <p class="pi-blog-date">{{ .date }}</p>
+            <a href="{{ .link }}" target="_blank" rel="noopener noreferrer" class="pi-blog-title">{{ .title }} ↗</a>
+            <p class="mt-2" style="color: var(--copy)">{{ .summary }}</p>
+        </article>
         {{ end }}
     </div>
+    {{ end }}
 </div>
 {{ end }}

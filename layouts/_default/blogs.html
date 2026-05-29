@@ -1,0 +1,21 @@
+{{ define "main" }}
+<div class="py-8 pi-content">
+    <h1 class="pi-page-title">{{ .Title }}</h1>
+
+    {{ $blogsData := index site.Data .Language.Lang "blogs" }}
+    {{ range $blogsData.blogs }}
+    <article class="pi-blog-item">
+        <p class="pi-blog-date">{{ .date }}</p>
+        <a href="{{ .link }}" target="_blank" rel="noopener noreferrer" class="pi-blog-title">{{ .title }} ↗</a>
+        <p class="mt-2" style="color: var(--copy)">{{ .summary }}</p>
+        <div class="flex flex-wrap gap-2 mt-3">
+            {{ range .tags }}
+            {{ if ne . "" }}
+            <span class="pi-chip">{{ . }}</span>
+            {{ end }}
+            {{ end }}
+        </div>
+    </article>
+    {{ end }}
+</div>
+{{ end }}

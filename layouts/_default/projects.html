@@ -1,0 +1,31 @@
+{{ define "main" }}
+<div class="py-8 pi-content-wide">
+    <h1 class="pi-page-title">{{ .Title }}</h1>
+
+    <div class="grid grid-cols-1 gap-6">
+        {{ $projectsData := index site.Data .Language.Lang "projects" }}
+        {{ range $projectsData.projects }}
+        <article class="pi-project-card group">
+            <div class="pi-project-media">
+                <img src="{{ .image }}" alt="{{ .title }}" loading="lazy">
+                <div class="pi-project-overlay"></div>
+                <div class="pi-project-content">
+                    <h3 class="pi-project-title">{{ .title }}</h3>
+                    <div class="pi-project-chips">
+                        {{ $techs := split .tech "," }}
+                        {{ range $techs }}
+                        <span class="pi-project-chip">{{ strings.TrimSpace . }}</span>
+                        {{ end }}
+                    </div>
+                    <p class="pi-project-desc">{{ .description }}</p>
+                    <a href="{{ .link }}" class="pi-btn">
+                        Learn More
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                    </a>
+                </div>
+            </div>
+        </article>
+        {{ end }}
+    </div>
+</div>
+{{ end }}

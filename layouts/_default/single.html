@@ -1,52 +1,29 @@
 {{ define "main" }}
-<article class="max-w-4xl mx-auto px-4 md:px-8 py-12">
-
-    <!-- Back -->
+<article class="py-8 pi-content-wide">
     {{ if eq .Section "blogs" }}
-    <a href="/blogs/" class="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white mb-10 transition-colors group">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:-translate-x-1 transition-transform"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        All posts
-    </a>
+    <a href="{{ "blogs/" | relURL }}" class="font-mono text-sm text-pi-muted mb-8 inline-block">← All posts</a>
     {{ end }}
 
-    <!-- Header -->
-    <header class="mb-10 pb-10 border-b border-gray-700">
+    <header class="mb-10 pb-8 border-b" style="border-color: var(--line)">
         {{ if eq .Section "blogs" }}
-        <div class="flex flex-wrap gap-2 mb-5">
+        <div class="flex flex-wrap gap-2 mb-4">
             {{ range .Params.tags }}
-            <span class="px-2.5 py-0.5 text-xs font-medium rounded-full bg-accent-light/10 dark:bg-accent-dark/10 text-accent-light dark:text-accent-dark border border-accent-light/20 dark:border-accent-dark/20">{{ . }}</span>
+            <span class="pi-chip">{{ . }}</span>
             {{ end }}
         </div>
         {{ end }}
 
-        <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-5 text-text-primary-light dark:text-text-primary-dark">{{ .Title }}</h1>
+        <h1 class="font-serif text-4xl md:text-5xl font-medium leading-tight text-pi mb-4">{{ .Title }}</h1>
 
         {{ if .Params.description }}
-        <p class="text-lg text-gray-400 mb-5 leading-relaxed">{{ .Params.description }}</p>
+        <p class="text-lg mb-4" style="color: var(--copy)">{{ .Params.description }}</p>
         {{ end }}
 
-        <time datetime="{{ .Date.Format "2006-01-02" }}" class="text-sm text-gray-500">{{ .Date.Format "January 2, 2006" }}</time>
+        <time datetime="{{ .Date.Format "2006-01-02" }}" class="font-mono text-xs text-pi-muted">{{ .Date.Format "January 2, 2006" }}</time>
     </header>
 
-    <!-- Content -->
-    <div class="prose prose-lg dark:prose-invert max-w-none
-        prose-headings:font-bold
-        prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4
-        prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
-        prose-p:leading-8 prose-p:mb-6
-        prose-a:text-accent-light dark:prose-a:text-accent-dark prose-a:no-underline hover:prose-a:underline
-        prose-strong:font-semibold
-        prose-code:text-accent-light dark:prose-code:text-accent-dark
-        prose-code:bg-neutral-100 dark:prose-code:bg-neutral-800
-        prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
-        prose-code:before:content-none prose-code:after:content-none
-        prose-pre:bg-neutral-900 prose-pre:border prose-pre:border-gray-700 prose-pre:rounded-xl prose-pre:overflow-x-auto
-        prose-blockquote:border-l-4 prose-blockquote:border-accent-light dark:prose-blockquote:border-accent-dark prose-blockquote:pl-4 prose-blockquote:text-gray-400
-        prose-hr:border-gray-700 prose-hr:my-10
-        prose-ul:space-y-2 prose-li:leading-7
-        prose-img:rounded-xl prose-img:border prose-img:border-gray-700">
+    <div class="pi-prose pi-article-content">
         {{ .Content }}
     </div>
-
 </article>
 {{ end }}

@@ -1,383 +1,234 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark" data-theme-mode="system">
     <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Blog - Yassine Cherair</title>
-        
-        
+
+        <script>(() => {
+          const storageKey = "pi:theme";
+          const root = document.documentElement;
+          const mq = window.matchMedia("(prefers-color-scheme: dark)");
+          const stored = localStorage.getItem(storageKey);
+          const mode = stored === "light" || stored === "dark" ? stored : "system";
+          const theme = mode === "system" ? (mq.matches ? "dark" : "light") : mode;
+          root.dataset.theme = theme;
+          root.dataset.themeMode = mode;
+          root.style.colorScheme = theme;
+          root.classList.toggle("dark", theme === "dark");
+        })();</script>
+
         <link rel="apple-touch-icon" sizes="180x180" href="http://localhost:1313/favicon_io/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon_io/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon_io/favicon-16x16.png">
-        <link rel="manifest" href="http://localhost:1313/favicon_io/site.webmanifest">        
-        <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
-        <link rel="preload" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" as="style">            
-        <style>
-            html, body {
-                background-color: #FFFFFF; 
-                color: #1f2937; 
-            }
-            html.dark, html.dark body {
-                background-color: #121212; 
-                color: #f3f4f6; 
-            }
-            .border { 
-                border-color: #d4d4d8; 
-            }
-            html.dark .border {
-                border-color: #374151; 
-            }
-            .carousel-item {
-                display: inline-block;
-                margin: 0 1rem;
-            }            
-            .flex {
-                display: flex;
-            }
-            .flex-col {
-                flex-direction: column;
-            }
-            
-            @media (min-width: 768px) {
-                .md\:flex-row {
-                    flex-direction: row;
-                }
-            }
-            
-            .tech-carousel {
-                overflow: hidden;
-                width: 100%;
-                padding: 1rem 0;
-            }
-            
-            .carousel-track {
-                white-space: nowrap;
-            }
-        </style>
+        <link rel="manifest" href="http://localhost:1313/favicon_io/site.webmanifest">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+
         
+        
+        <link rel="stylesheet" href="/css/pi-tokens.min.css">
+        <link rel="stylesheet" href="/css/portfolio.min.css">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+
         <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
         <script>
-            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
+          tailwind.config = {
+            darkMode: 'class',
+            theme: {
+              extend: {
+                fontFamily: {
+                  sans: ['Newsreader', 'Georgia', 'serif'],
+                  mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+                },
+                colors: {
+                  'bg-primary-light': '#ebe7e4',
+                  'text-primary-light': '#252f3d',
+                  'text-secondary-light': '#5c5752',
+                  'border-primary-light': '#8b847d',
+                  'accent-light': '#4b607c',
+                  'bg-primary-dark': '#161d27',
+                  'bg-secondary-dark': '#212730',
+                  'bg-tertiary-dark': '#252f3d',
+                  'text-primary-dark': '#ebe7e4',
+                  'text-secondary-dark': '#9fa4ab',
+                  'border-primary-dark': '#495059',
+                  'accent-dark': '#6a9fcc',
+                },
+              },
+            },
+          };
         </script>
-        <style>
-            :root {
-                color-scheme: light dark;
-            }
-            
-            .tech-icon {
-                filter: grayscale(100%) brightness(200%);
-                transition: all 0.3s ease;
-            }
-            .tech-icon:hover {
-                filter: none;
-            }
-            
-            @keyframes scroll {
-                0% {
-                    transform: translateX(0);
-                }
-                100% {
-                    transform: translateX(-100%);
-                }
-            }
-            
-            .tech-carousel {
-                width: 100%;
-                padding: 1rem 0;
-            }
-            
-            .tech-track {
-                width: fit-content;
-                animation: scroll 20s linear infinite;
-            }
-            
-            .tech-track:hover {
-                animation-play-state: paused;
-            }
-            
-            .tech-slide {
-                float: left;
-            }
-        </style>
-    </head>
-    <body class="min-h-screen bg-bg-primary-light dark:bg-bg-primary-dark text-text-primary-light dark:text-text-primary-dark">
+
         
-<head>
-    <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-    </style>
-</head>
-<header class="py-6 relative">
-    <div class="max-w-6xl mx-auto px-4">
-        <div class="flex items-center justify-between">
-            
-            
-            
-            
-            <a href="/" class="text-xl font-bold text-text-primary-light dark:text-text-primary-dark hover:text-accent-light dark:hover:text-accent-dark transition-colors duration-300">
-                Yassine Cherair
-            </a>
+        <script src="/js/theme.min.js" defer></script>
+    </head>
+    <body class="min-h-screen font-serif text-pi">
+        <div class="site-tilt-layer">
             
 
+
+<header class="pi-nav">
+    <div class="pi-nav-inner">
+        
+        <a href="/" class="pi-nav-brand">Yassine Cherair</a>
+        
+
+        <nav class="pi-nav-links" aria-label="Main">
             
-            <div class="flex items-center gap-5">
-                
-                <nav class="hidden md:flex items-center gap-6">
-                    
-                    <a href="http://localhost:1313/" class="text-base text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark transition-colors duration-200 ">Projects</a>
-                    
-                    <a href="http://localhost:1313/blogs/" class="text-base text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark transition-colors duration-200 text-accent-light dark:text-accent-dark font-semibold">Blog</a>
-                    
-                </nav>
+            <a href="http://localhost:1313/"
+               class="pi-nav-link">Projects</a>
+            
+            <a href="http://localhost:1313/blogs/"
+               class="pi-nav-link is-active">Blog</a>
+            
+        </nav>
 
-                
-                <div id="local-time" class="hidden md:block text-sm text-text-secondary-light dark:text-text-secondary-dark tabular-nums"></div>
+        <div class="pi-nav-meta">
+            <div id="local-time" class="pi-nav-time" aria-live="polite"></div>
 
-                
-                <button id="theme-toggle-button-desktop" class="text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark transition-colors duration-200 p-1 rounded-md">
-                  <svg id="theme-toggle-dark-icon-desktop" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
-                    <path d="M21.7519 15.0021C20.597 15.484 19.3296 15.7501 18 15.7501C12.6152 15.7501 8.25 11.3849 8.25 6.00011C8.25 4.67052 8.51614 3.40308 8.99806 2.24817C5.47566 3.71798 3 7.19493 3 11.2501C3 16.6349 7.36522 21.0001 12.75 21.0001C16.8052 21.0001 20.2821 18.5245 21.7519 15.0021Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  <svg id="theme-toggle-light-icon-desktop" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-5 h-5 hidden">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"/>
-                  </svg>
-                </button>
+            <button type="button" class="pi-theme-toggle" data-theme-toggle aria-label="Toggle theme">
+                <svg class="w-4 h-4" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.7519 15.0021C20.597 15.484 19.3296 15.7501 18 15.7501C12.6152 15.7501 8.25 11.3849 8.25 6.00011C8.25 4.67052 8.51614 3.40308 8.99806 2.24817C5.47566 3.71798 3 7.19493 3 11.2501C3 16.6349 7.36522 21.0001 12.75 21.0001C16.8052 21.0001 20.2821 18.5245 21.7519 15.0021Z"/>
+                </svg>
+            </button>
 
-                
-                <button id="mobile-menu-button" class="md:hidden text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    
-    <div id="mobile-menu" class="fixed inset-0 bg-bg-secondary-light dark:bg-bg-secondary-dark z-50 hidden transition-all duration-300 backdrop-blur-2xl">
-        <div class="flex flex-col h-full">
-            <div class="flex justify-between items-center p-6">
-                <span class="text-xl font-bold text-text-primary-light dark:text-text-primary-dark">Menu</span>
-                <div class="flex items-center gap-4">
-                    <button id="theme-toggle-button-mobile" class="text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark transition-colors duration-300 flex items-center p-2 rounded-md">
-                      <svg id="theme-toggle-dark-icon-mobile" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
-                        <path d="M21.7519 15.0021C20.597 15.484 19.3296 15.7501 18 15.7501C12.6152 15.7501 8.25 11.3849 8.25 6.00011C8.25 4.67052 8.51614 3.40308 8.99806 2.24817C5.47566 3.71798 3 7.19493 3 11.2501C3 16.6349 7.36522 21.0001 12.75 21.0001C16.8052 21.0001 20.2821 18.5245 21.7519 15.0021Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                      </svg>
-                      <svg id="theme-toggle-light-icon-mobile" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-5 h-5 hidden">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"/>
-                      </svg>
-                    </button>
-                    <button id="mobile-menu-close" class="text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark transition-colors duration-300 focus:outline-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <nav class="flex flex-col p-6 space-y-4">
-                
-                <a href="http://localhost:1313/" class="text-xl text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark transition-colors duration-300 " data-menu-link>Projects</a>
-                
-                <a href="http://localhost:1313/blogs/" class="text-xl text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark transition-colors duration-300 text-accent-light dark:text-accent-dark font-semibold" data-menu-link>Blog</a>
-                
-            </nav>
-            <div class="mt-auto p-6">
-                <div class="flex items-center justify-center">
-                    <span class="text-lg text-text-secondary-light dark:text-text-secondary-dark mr-2">Local Time:</span>
-                    <div id="mobile-local-time" class="text-lg text-text-secondary-light dark:text-text-secondary-dark"></div>
-                </div>
-            </div>
+            <button type="button" id="mobile-menu-button" class="pi-menu-btn" aria-label="Open menu" aria-expanded="false">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
         </div>
     </div>
 </header>
 
-<script>
-    
-    function updateLocalTime() {
-        const timeElements = document.querySelectorAll('#local-time, #mobile-local-time');
-        timeElements.forEach(element => {
-            if (element) {
-                const now = new Date();
-                const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                element.textContent = timeString;
-            }
-        });
-    }
-    updateLocalTime();
-    setInterval(updateLocalTime, 1000);
+<div id="mobile-menu" class="pi-mobile-menu" aria-hidden="true">
+    <div class="pi-mobile-menu-panel">
+        <div class="flex justify-between items-center">
+            <span class="font-mono text-sm text-pi-muted uppercase tracking-widest">Menu</span>
+            <div class="flex items-center gap-3">
+                <button type="button" class="pi-theme-toggle" data-theme-toggle aria-label="Toggle theme">
+                    <svg class="w-4 h-4" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.7519 15.0021C20.597 15.484 19.3296 15.7501 18 15.7501C12.6152 15.7501 8.25 11.3849 8.25 6.00011C8.25 4.67052 8.51614 3.40308 8.99806 2.24817C5.47566 3.71798 3 7.19493 3 11.2501C3 16.6349 7.36522 21.0001 12.75 21.0001C16.8052 21.0001 20.2821 18.5245 21.7519 15.0021Z"/>
+                    </svg>
+                </button>
+                <button type="button" id="mobile-menu-close" class="pi-menu-btn" aria-label="Close menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
 
-    
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenuClose = document.getElementById('mobile-menu-close');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const menuLinks = document.querySelectorAll('[data-menu-link]');
-
-    function openMobileMenu() {
-        mobileMenu.classList.remove('hidden');
-        document.body.style.overflow = 'hidden'; 
-    }
-
-    function closeMobileMenu() {
-        mobileMenu.classList.add('hidden');
-        document.body.style.overflow = ''; 
-    }
-
-    mobileMenuButton.addEventListener('click', openMobileMenu);
-    mobileMenuClose.addEventListener('click', closeMobileMenu);
-
-    
-    menuLinks.forEach(link => {
-        link.addEventListener('click', closeMobileMenu);
-    });
-
-    
-    const themeToggleBtnDesktop = document.getElementById('theme-toggle-button-desktop');
-    const themeToggleDarkIconDesktop = document.getElementById('theme-toggle-dark-icon-desktop');
-    const themeToggleLightIconDesktop = document.getElementById('theme-toggle-light-icon-desktop');
-
-    const themeToggleBtnMobile = document.getElementById('theme-toggle-button-mobile');
-    const themeToggleDarkIconMobile = document.getElementById('theme-toggle-dark-icon-mobile');
-    const themeToggleLightIconMobile = document.getElementById('theme-toggle-light-icon-mobile');
-
-    
-    function updateIcons(isDarkMode) {
-        if (themeToggleDarkIconDesktop && themeToggleLightIconDesktop) {
-            if (isDarkMode) {
-                themeToggleLightIconDesktop.classList.remove('hidden');
-                themeToggleDarkIconDesktop.classList.add('hidden');
-            } else {
-                themeToggleLightIconDesktop.classList.add('hidden');
-                themeToggleDarkIconDesktop.classList.remove('hidden');
-            }
-        }
-        if (themeToggleDarkIconMobile && themeToggleLightIconMobile) {
-            if (isDarkMode) {
-                themeToggleLightIconMobile.classList.remove('hidden');
-                themeToggleDarkIconMobile.classList.add('hidden');
-            } else {
-                themeToggleLightIconMobile.classList.add('hidden');
-                themeToggleDarkIconMobile.classList.remove('hidden');
-            }
-        }
-    }
-
-    
-    function applyTheme(isDarkMode) {
-        if (isDarkMode) {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('color-theme', 'dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-            localStorage.setItem('color-theme', 'light');
-        }
-        updateIcons(isDarkMode);
-    }
-
-    
-    let initialIsDarkMode = false;
-    if (localStorage.getItem('color-theme') === 'dark' || 
-        (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        initialIsDarkMode = true;
-    }
-    
-    if (initialIsDarkMode && !document.documentElement.classList.contains('dark')) {
-         document.documentElement.classList.add('dark');
-    }
-    applyTheme(initialIsDarkMode); 
-
-    
-    function themeToggleClickHandler() {
-        const isCurrentlyDark = document.documentElement.classList.contains('dark');
-        applyTheme(!isCurrentlyDark); 
-        
-        
-        if (window.innerWidth < 768) {
-            closeMobileMenu();
-        }
-    }
-
-    if (themeToggleBtnDesktop) {
-        themeToggleBtnDesktop.addEventListener('click', themeToggleClickHandler);
-    }
-    if (themeToggleBtnMobile) {
-        themeToggleBtnMobile.addEventListener('click', themeToggleClickHandler);
-    }
-    
-    
-    mobileMenu.addEventListener('click', function(event) {
-        
-        if (event.target === mobileMenu) {
-            closeMobileMenu();
-        }
-    });
-    
-    
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
-            closeMobileMenu();
-        }
-    });
-</script> 
-        <main>
+        <nav class="pi-mobile-menu-links" aria-label="Mobile">
             
-<div class="max-w-3xl mx-auto px-4 py-12">
-    <h1 class="text-5xl font-bold mb-12 text-text-primary-light dark:text-text-primary-dark">Blog</h1>
+            <a href="http://localhost:1313/"
+               class="pi-nav-link"
+               data-menu-link>Projects</a>
+            
+            <a href="http://localhost:1313/blogs/"
+               class="pi-nav-link is-active"
+               data-menu-link>Blog</a>
+            
+        </nav>
 
-    <div class="space-y-12">
-        
+        <div class="mt-auto pt-8 text-center">
+            <span class="font-mono text-xs text-pi-muted">Local Time: </span>
+            <span id="mobile-local-time" class="font-mono text-xs text-pi-muted"></span>
+        </div>
     </div>
 </div>
 
-        </main>
-        
-<footer class="mt-32 text-center">
-    <div class="max-w-3xl mx-auto">
-        <div class="border-t border-border-primary-light dark:border-border-primary-dark pt-5">
-            <div class="flex flex-col items-center justify-center gap-2">
-                                
+<script>
+(function () {
+  function updateLocalTime() {
+    const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    document.querySelectorAll('#local-time, #mobile-local-time').forEach((el) => {
+      if (el) el.textContent = timeString;
+    });
+  }
+  updateLocalTime();
+  setInterval(updateLocalTime, 1000);
+
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenuClose = document.getElementById('mobile-menu-close');
+
+  function openMobileMenu() {
+    mobileMenu.classList.add('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    mobileMenuButton?.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    mobileMenuButton?.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  mobileMenuButton?.addEventListener('click', openMobileMenu);
+  mobileMenuClose?.addEventListener('click', closeMobileMenu);
+
+  document.querySelectorAll('[data-menu-link]').forEach((link) => {
+    link.addEventListener('click', closeMobileMenu);
+  });
+
+  mobileMenu?.addEventListener('click', (event) => {
+    if (event.target === mobileMenu) closeMobileMenu();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && mobileMenu?.classList.contains('is-open')) {
+      closeMobileMenu();
+    }
+  });
+
+  document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (window.innerWidth < 768) closeMobileMenu();
+    });
+  });
+})();
+</script>
+
+            <main class="page-shell">
                 
-                
-                <p class="text-text-secondary-light dark:text-text-secondary-dark text-xm ">© 2026 Yassine Cherair</p>
-                <p class="text-text-secondary-light dark:text-text-secondary-dark text-xm pb-12">Built using <a href="https://gohugo.io/" target="_blank" class="animated-link text-accent-light dark:text-accent-dark hover:text-text-primary-light dark:hover:text-text-primary-dark">Hugo</a>. Take a look at my <a href="https://github.com/yassinech-99" target="_blank" class="animated-link text-accent-light dark:text-accent-dark hover:text-text-primary-light dark:hover:text-text-primary-dark">GitHub</a></p>
-                
-            </div>
+<div class="py-8 pi-content">
+    <h1 class="pi-page-title">Blog</h1>
+
+    
+    
+    <article class="pi-blog-item">
+        <p class="pi-blog-date"></p>
+        <a href="" target="_blank" rel="noopener noreferrer" class="pi-blog-title"> ↗</a>
+        <p class="mt-2" style="color: var(--copy)"></p>
+        <div class="flex flex-wrap gap-2 mt-3">
+            
         </div>
-    </div>
+    </article>
+    
+</div>
+
+            </main>
+            <footer class="pi-footer">
+    
+    
+    
+    <p>© 2026 Yassine Cherair</p>
+    <p>
+        Built using
+        <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a>.
+        Take a look at my
+        <a href="https://github.com/yassinech-99" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </p>
+    
 </footer>
 
-<style>
-    .animated-link {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-    }
-    
-    .animated-link::after {
-        content: '';
-        position: absolute;
-        width: 0;
-        height: 1px;
-        bottom: -1px;
-        left: 0;
-        background-color: #0284c7;  
-        transition: width 0.3s ease-in-out;
-    }
-    
-    .animated-link:hover::after {
-        width: 100%;
-    }
-    html.dark .animated-link::after {
-        background-color: #0ea5e9;  
-    }
-</style> 
+        </div>
     </body>
-</html> 
+</html>
