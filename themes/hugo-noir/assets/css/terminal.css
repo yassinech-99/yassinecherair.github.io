@@ -199,7 +199,7 @@
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-  padding-left: 0.5rem;
+  padding-left: 2ch;
   white-space: pre-wrap;
   word-break: normal;
   overflow-wrap: break-word;
@@ -220,6 +220,19 @@
 
 .pi-terminal-line--dim {
   color: color-mix(in srgb, var(--landing-demo-terminal-fg) 55%, transparent);
+}
+
+.pi-terminal-line a.pi-terminal-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--accent-underline-muted);
+  text-underline-offset: 0.12em;
+  cursor: pointer;
+}
+
+.pi-terminal-line a.pi-terminal-link:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
 }
 
 .pi-terminal-cursor {

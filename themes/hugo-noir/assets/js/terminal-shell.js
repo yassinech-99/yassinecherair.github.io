@@ -62,6 +62,54 @@
   const skillCategoryEmoji = (cat) =>
     cat.emoji || SKILL_EMOJI_FALLBACK[cat.name] || "•";
 
+  const LINK_RE = /(https?:\/\/[^\s<]+|mailto:[^\s<]+)/gi;
+
+  const hasLinkableContent = (text) => /https?:\/\/|mailto:/i.test(text);
+
+  const trimLinkTrailing = (url) => url.replace(/[.,;:!?)'\]]+$/, "");
+
+  const linkifyElement = (el, plainText) => {
+    const text = plainText ?? el.textContent ?? "";
+    if (!text || !hasLinkableContent(text)) return;
+
+    el.dataset.plainText = text;
+    el.textContent = "";
+
+    const frag = document.createDocumentFragment();
+    let last = 0;
+    const re = new RegExp(LINK_RE.source, LINK_RE.flags);
+    let match;
+
+    while ((match = re.exec(text)) !== null) {
+      if (match.index > last) {
+        frag.appendChild(document.createTextNode(text.slice(last, match.index)));
+      }
+      const raw = match[0];
+      const href = trimLinkTrailing(raw);
+      const trailing = raw.slice(href.length);
+
+      const anchor = document.createElement("a");
+      anchor.className = "pi-terminal-link";
+      anchor.href = href;
+      anchor.textContent = href;
+      anchor.target = "_blank";
+      anchor.rel = "noopener noreferrer";
+      anchor.addEventListener("click", (e) => e.stopPropagation());
+      frag.appendChild(anchor);
+
+      if (trailing) {
+        frag.appendChild(document.createTextNode(trailing));
+      }
+      last = match.index + raw.length;
+    }
+
+    if (last < text.length) {
+      frag.appendChild(document.createTextNode(text.slice(last)));
+    }
+
+    el.appendChild(frag);
+  };
+
   class TerminalHarness {
     constructor(widget) {
       this.widget = widget;
@@ -241,6 +289,7 @@
       if (prefersReducedMotion || delay === 0) {
         cursor.remove();
         el.textContent = text;
+        linkifyElement(el, text);
         this.scrollToBottom();
         return text.length;
       }
@@ -251,6 +300,7 @@
         await sleep(delay);
       }
       cursor.remove();
+      linkifyElement(el, text);
       this.scrollToBottom();
       return text.length;
     }
@@ -429,7 +479,7 @@
         lines.push({ type: "tool", text: `▸ ${j.role} @ ${j.company}` });
         lines.push({ type: "dim", text: `  ${j.period || ""}${j.country ? ` · ${j.country}` : ""}` });
         if (j.description) {
-          lines.push({ type: "agent", prose: true, text: `  ${j.description}` });
+          lines.push({ type: "agent", prose: true, text: j.description });
         }
         lines.push({ type: "dim", text: "" });
       });
@@ -481,7 +531,7 @@
           }
         }
         if (p.description) {
-          lines.push({ type: "agent", prose: true, text: `  ${p.description}` });
+          lines.push({ type: "agent", prose: true, text: p.description });
         }
         if (p.link && p.link !== "#") {
           lines.push({ type: "dim", text: `  → ${p.link}` });
