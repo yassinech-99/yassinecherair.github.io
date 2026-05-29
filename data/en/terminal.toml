@@ -1,0 +1,71 @@
+# Interactive harness — welcome, commands, token budget
+
+[welcome]
+window_title = "yc@portfolio — harness"
+lines = [
+  "Portfolio harness v1 · local REPL · no API keys required.",
+  "Type /help for slash commands. Token meter below tracks your session.",
+]
+
+[boot_hints]
+lines = [
+  "/whoami  /experience  /skills  /projects  /hireme",
+  "/usage  /clear  /help",
+]
+
+[budget]
+total_tokens = 50000
+base_cost = 400
+chars_per_token = 2
+clear_cost = 50
+usage_cost = 80
+dzd_per_1k_tokens = 8.5
+currency = "DZD"
+
+[[commands]]
+name = "help"
+description = "List all slash commands"
+
+[[commands]]
+name = "whoami"
+description = "About Yassine"
+
+[[commands]]
+name = "experience"
+description = "Work history"
+
+[[commands]]
+name = "skills"
+description = "Tech stack"
+
+[[commands]]
+name = "projects"
+description = "Selected projects"
+
+[[commands]]
+name = "hireme"
+description = "Contact & links"
+
+[[commands]]
+name = "usage"
+description = "Token budget & session stats"
+
+[[commands]]
+name = "clear"
+description = "Clear terminal scrollback"
+
+[[exhausted.lines]]
+type = "warn"
+text = "billing error: quota exceeded"
+
+[[exhausted.lines]]
+type = "agent"
+text = "yassine has an unpaid bill. harness suspended until finance approves."
+
+[[exhausted.lines]]
+type = "dim"
+text = "refresh the page to reset your free tier. or try /hireme to negotiate."
+
+[[exhausted.lines]]
+type = "success"
+text = "(this is a joke — you're on the static site free tier)"

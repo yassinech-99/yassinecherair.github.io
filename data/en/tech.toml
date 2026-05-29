@@ -1,35 +1,54 @@
-# Backend • Cloud • Infrastructure
+# Languages • Backend • Cloud • DevOps • Databases
 row1 = [
-
-  { icon = "devicon-amazonwebservices-plain-wordmark", name = "AWS" },
-  { icon = "devicon-azure-plain", name = "Azure" },
-  { icon = "devicon-googlecloud-plain", name = "GCP" },
-  { icon = "", name = "Runpod" },
-  { icon = "devicon-git-plain", name = "GIT" },
-  { icon = "devicon-docker-plain", name = "Docker" },
-  { icon = "devicon-kubernetes-plain", name = "Kubernetes" },
-  { icon = "devicon-terraform-plain", name = "Terraform" },
-  { icon = "devicon-ansible-plain", name = "Ansible" }
-  
-]
-
-# AI • Networking • Observability • Data
-row2 = [
   { icon = "devicon-python-plain", name = "Python" },
   { icon = "devicon-go-plain", name = "Go" },
   { icon = "devicon-bash-plain", name = "Bash" },
+  { icon = "", name = "PowerShell" },
+  { icon = "devicon-typescript-plain", name = "TypeScript" },
 
   { icon = "devicon-fastapi-plain", name = "FastAPI" },
   { icon = "devicon-django-plain", name = "Django" },
 
-  { icon = "devicon-pytorch-original", name = "PyTorch" },
-  { icon = "", name = "LangChain" },
-  { icon = "", name = "Ollama" },
-  { icon = "", name = "Huggingface" },
+  { icon = "devicon-amazonwebservices-plain-wordmark", name = "AWS" },
+  { icon = "devicon-azure-plain", name = "Azure" },
+  { icon = "devicon-googlecloud-plain", name = "GCP" },
+  { icon = "", name = "Huawei HCS" },
 
+  { icon = "devicon-docker-plain", name = "Docker" },
+  { icon = "devicon-kubernetes-plain", name = "Kubernetes" },
+  { icon = "devicon-terraform-plain", name = "Terraform" },
+  { icon = "devicon-ansible-plain", name = "Ansible" },
+  { icon = "", name = "AWX" },
+  { icon = "", name = "NetBox" },
+  { icon = "devicon-github-original", name = "GitHub" },
+  { icon = "devicon-gitlab-plain", name = "GitLab" },
+  { icon = "", name = "GHCR" },
 
+  { icon = "devicon-neo4j-plain", name = "Neo4j" },
   { icon = "devicon-postgresql-plain", name = "PostgreSQL" },
   { icon = "devicon-supabase-plain", name = "Supabase" },
-  { icon = "devicon-neo4j-plain", name = "Neo4j" },
+]
 
+# AI Frameworks • AI Platforms • Security
+row2 = [
+  { icon = "", name = "LangChain" },
+  { icon = "", name = "SmolAgents" },
+  { icon = "", name = "HuggingFace" },
+  { icon = "", name = "Ollama" },
+  { icon = "devicon-pytorch-original", name = "PyTorch" },
+  { icon = "", name = "CrewAI" },
+
+  { icon = "devicon-amazonwebservices-plain-wordmark", name = "Amazon Bedrock" },
+  { icon = "devicon-googlecloud-plain", name = "Google ADK" },
+  { icon = "", name = "RunPod" },
+
+  { icon = "", name = "OWASP Web Top 10" },
+  { icon = "", name = "OWASP LLM Top 10" },
+  { icon = "", name = "OWASP API Top 10" },
+  { icon = "", name = "Trivy" },
+  { icon = "", name = "Synk" },
+  { icon = "", name = "SAST" },
+  { icon = "", name = "DAST" },
+  { icon = "", name = "SCA" },
+  { icon = "", name = "Detection Engineering & SIEMs" },
 ]

@@ -1,27 +1,28 @@
 [[projects]]
-  title = "AI-Powered Network Sandbox"
-  description = "LLM that impersonates real network devices — tracks session state in Neo4j, grounds every CLI response in vendor docs via RAG, and wraps it all behind a real SSH and RESTCONF server. Ansible and Terraform connect to it with zero changes."
-  tech = "Python,LangChain,Neo4j,FastAPI,Docker,RAG"
-  link = "https://github.com/yassinech-99/AI-Powered-Network-Sandbox-"
+  title = "AI-Powered Network Device Emulator"
+  description = "LLM that roleplays as a real network device — SSH + RESTCONF interfaces, session state, YANG/CLI grounding via RAG. Ansible playbooks and Terraform providers connect with no changes. ~80% output match vs real hardware."
+  tech = "Python,LangChain,Neo4j,FastAPI,RAG,BM25,Ollama"
+  highlight = true
+  link = "#"
   image = "/images/yc-thumb.svg"
 
 [[projects]]
-  title = "langchain-dockersandbox"
-  description = "A pip-installable Docker sandbox backend for LangChain agents. Gives your agent a real isolated container to execute code in — thread-scoped by default, gVisor-ready for production, with file upload/download APIs."
-  tech = "Python,Docker,LangChain,gVisor"
-  link = "https://github.com/yassinech-99/langchain-docker"
+  title = "Sandboxed Code Execution for AI Agents"
+  description = "Isolated execution environment for LLM agents. Each run spins up a fresh Docker container with gVisor (runsc) kernel-level isolation, captures stdout/stderr, and tears down. Exposed as a LangChain tool with configurable resource limits."
+  tech = "Python,Docker,gVisor,DeepAgents"
+  link = "#"
   image = "/images/yc-thumb.svg"
 
 [[projects]]
-  title = "NovaGrid Agents"
-  description = "Enterprise agent workspace built on Amazon Nova. Visual agent builder, hybrid RAG (FAISS + BM25 + Bedrock Knowledge Bases), browser automation via Nova Act, and S3 document ingestion. Full stack: LangGraph + FastAPI + React."
-  tech = "Python,LangGraph,Amazon Bedrock,FAISS,Meilisearch,TypeScript"
-  link = "https://github.com/yassinech-99/agent-builder"
+  title = "MCPs for AI agents"
+  description = "MCPs for AI agents to audit AWS environments, VirusTotal, and more."
+  tech = "Python,MCP,boto3,AWS,VirusTotal API"
+  link = "#"
   image = "/images/yc-thumb.svg"
 
 [[projects]]
-  title = "RunPod ComfyUI Workers"
-  description = "Base Docker images for a fleet of RunPod serverless image and video generation workers. Standardized CUDA setup and pre-loaded model volumes from HuggingFace and CivitAI — containers attach ready, no cold-start pulls."
-  tech = "Docker,Python,RunPod,ComfyUI,CUDA,HuggingFace"
-  link = "https://github.com/yassinech-99/runpod_comfyui"
+  title = "Chat with your network devices"
+  description = "Chat with your network devices using natural language. You describe the change, the agent generates and applies the config to real devices."
+  tech = "Python,LangChain,FastAPI,Paramiko,REST"
+  link = "#"
   image = "/images/yc-thumb.svg"

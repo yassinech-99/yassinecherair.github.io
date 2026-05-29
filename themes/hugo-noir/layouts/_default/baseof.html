@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ .Site.Language.Lang | default "en" }}" data-theme="dark" data-theme-mode="system">
+<html lang="{{ .Site.Language.Lang | default "en" }}" data-theme="light" data-theme-mode="light">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,7 @@
           const root = document.documentElement;
           const mq = window.matchMedia("(prefers-color-scheme: dark)");
           const stored = localStorage.getItem(storageKey);
-          const mode = stored === "light" || stored === "dark" ? stored : "system";
+          const mode = stored === "light" || stored === "dark" ? stored : "light";
           const theme = mode === "system" ? (mq.matches ? "dark" : "light") : mode;
           root.dataset.theme = theme;
           root.dataset.themeMode = mode;
@@ -65,8 +65,15 @@
 
         {{ $themeJs := resources.Get "js/theme.js" | minify }}
         <script src="{{ $themeJs.RelPermalink }}" defer></script>
+
+        {{ if .IsHome }}
+        {{ $terminalCss := resources.Get "css/terminal.css" | minify }}
+        <link rel="stylesheet" href="{{ $terminalCss.RelPermalink }}">
+        {{ $terminalJs := resources.Get "js/terminal-shell.js" | minify }}
+        <script src="{{ $terminalJs.RelPermalink }}" defer></script>
+        {{ end }}
     </head>
-    <body class="min-h-screen font-serif text-pi">
+    <body class="min-h-screen font-serif text-pi{{ if .IsHome }} page-home-harness{{ end }}">
         <div class="site-tilt-layer">
             {{ partial "header" . }}
             <main class="page-shell">

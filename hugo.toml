@@ -26,10 +26,6 @@ buildFuture = true
     contentDir = "content/en"
     [languages.en.menu]
       [[languages.en.menu.main]]
-        name = "Projects"
-        pageRef = "/projects"
-        weight = 1
-      [[languages.en.menu.main]]
         name = "Blog"
         pageRef = "/blogs"
-        weight = 2
+        weight = 1

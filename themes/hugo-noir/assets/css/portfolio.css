@@ -232,38 +232,6 @@
   font-size: 1.1rem;
 }
 
-/* Hero */
-.pi-hero {
-  padding: 1.5rem;
-  margin-bottom: 3rem;
-}
-
-.pi-hero-name {
-  font-family: var(--serif);
-  font-size: clamp(2rem, 6vw, 2.75rem);
-  font-weight: 500;
-  line-height: 1.1;
-  color: var(--text);
-  margin-bottom: 0.5rem;
-}
-
-.pi-hero-location {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-family: var(--mono);
-  font-size: 0.85rem;
-  color: var(--muted);
-  margin-bottom: 1rem;
-}
-
-.pi-hero-desc {
-  font-size: var(--body-copy-font-size);
-  line-height: var(--body-copy-line-height);
-  color: var(--copy);
-  max-width: 42rem;
-}
-
 .pi-social-row {
   display: flex;
   flex-wrap: wrap;
@@ -642,6 +610,12 @@
   padding-top: 1.5rem;
   border-top: 1px solid var(--line);
   text-align: center;
+}
+
+.page-home-harness .pi-footer {
+  margin-top: 0.75rem;
+  flex-shrink: 0;
+  padding-top: 1rem;
 }
 
 .pi-footer p {

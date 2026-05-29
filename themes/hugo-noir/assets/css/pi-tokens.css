@@ -1,7 +1,7 @@
 /* Pi.dev-inspired design tokens — portfolio edition (Newsreader + JetBrains Mono) */
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
   /* Brand palette */
   --color-parchment: #dacbc2;
@@ -104,6 +104,15 @@
   --body-copy-font-size: 1rem;
   --body-copy-line-height: 1.55;
   --mono-detail-copy-font-size: 0.84rem;
+
+  /* Terminal demo (dark baseline; light overrides below) */
+  --landing-demo-terminal-bg: #142433;
+  --landing-demo-terminal-fg: #f8f8f2;
+  --landing-demo-caption-color: #ffffffe0;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 :root[data-theme="light"] {
@@ -174,6 +183,10 @@
   --border-primary-dark: var(--line-base);
   --accent-light: var(--color-tidal-blue);
   --accent-dark: var(--accent);
+
+  --landing-demo-terminal-bg: #eef1f3;
+  --landing-demo-terminal-fg: #394352;
+  --landing-demo-caption-color: #252f3de6;
 }
 
 /* Base document */

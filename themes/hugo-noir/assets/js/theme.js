@@ -2,11 +2,11 @@
   const storageKey = "pi:theme";
   const root = document.documentElement;
   const colorSchemeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-  const modeOrder = ["system", "light", "dark"];
+  const modeOrder = ["light", "dark", "system"];
 
   const getMode = () => {
     const mode = root.dataset.themeMode;
-    return mode === "system" || mode === "light" || mode === "dark" ? mode : "system";
+    return mode === "system" || mode === "light" || mode === "dark" ? mode : "light";
   };
 
   const getThemeForMode = (mode) =>
@@ -82,12 +82,12 @@
   window.addEventListener("storage", (event) => {
     if (event.key !== storageKey) return;
     const mode =
-      event.newValue === "light" || event.newValue === "dark" ? event.newValue : "system";
+      event.newValue === "light" || event.newValue === "dark" ? event.newValue : "light";
     setMode(mode);
   });
 
   const storedMode = localStorage.getItem(storageKey);
   const initialMode =
-    storedMode === "light" || storedMode === "dark" ? storedMode : "system";
+    storedMode === "light" || storedMode === "dark" ? storedMode : "light";
   setMode(initialMode);
 })();

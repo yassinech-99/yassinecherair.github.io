@@ -1,0 +1,84 @@
+{{ $ctx := .context }}
+{{ $lang := $ctx.Language.Lang }}
+{{ $terminalData := index site.Data $lang "terminal" }}
+{{ $authorData := index site.Data $lang "author" }}
+{{ $author := cond (and $authorData (isset $authorData "author")) $authorData.author (dict) }}
+{{ $expData := index site.Data $lang "experience" }}
+{{ $experience := cond (and $expData (isset $expData "experience")) $expData.experience (slice) }}
+{{ $projData := index site.Data $lang "projects" }}
+{{ $projects := cond (and $projData (isset $projData "projects")) $projData.projects (slice) }}
+{{ $techData := index site.Data $lang "tech" }}
+{{ $skillsData := index site.Data $lang "skills" }}
+{{ $skillCategories := cond (and $skillsData (isset $skillsData "categories")) $skillsData.categories (slice) }}
+
+{{ $shellCtx := dict
+  "author" $author
+  "experience" $experience
+  "projects" $projects
+  "tech" $techData
+  "skills" (dict "categories" $skillCategories)
+  "welcome" ($terminalData.welcome | default dict)
+  "boot_hints" ($terminalData.boot_hints | default dict)
+  "commands" ($terminalData.commands | default (slice))
+  "budget" ($terminalData.budget | default dict)
+  "exhausted" (dict "lines" ($terminalData.exhausted.lines | default (slice)))
+  "site" (dict "title" $ctx.Site.Title)
+}}
+
+<div
+  class="pi-terminal-widget pi-terminal-widget--interactive"
+  data-terminal-harness
+  role="application"
+  aria-label="Portfolio terminal harness"
+>
+  <div class="pi-terminal-frame">
+    <div class="pi-terminal-chrome">
+      <div class="pi-terminal-lights" aria-hidden="true">
+        <span class="pi-terminal-light pi-terminal-light--red"></span>
+        <span class="pi-terminal-light pi-terminal-light--yellow"></span>
+        <span class="pi-terminal-light pi-terminal-light--green"></span>
+      </div>
+      <span class="pi-terminal-title" data-terminal-title>{{ $terminalData.welcome.window_title | default "yc@portfolio — harness" }}</span>
+      <span class="pi-terminal-status" data-terminal-status>ready</span>
+    </div>
+
+    <div class="pi-terminal-scroll" data-terminal-scroll>
+      <div class="pi-terminal-body" data-terminal-body role="log" aria-live="polite" aria-relevant="additions"></div>
+    </div>
+
+    <form class="pi-terminal-input-row" data-terminal-form autocomplete="off">
+      <span class="pi-terminal-input-prompt" aria-hidden="true">yc@portfolio ›</span>
+      <input
+        class="pi-terminal-input"
+        data-terminal-input
+        type="text"
+        spellcheck="false"
+        autocapitalize="off"
+        autocomplete="off"
+        placeholder="Type /help…"
+        aria-label="Terminal command input"
+        disabled
+      />
+    </form>
+  </div>
+
+  <div class="pi-terminal-meter pi-terminal-meter--billing" data-terminal-meter>
+    <div class="pi-terminal-meter__header">
+      <span>session budget</span>
+      <span class="pi-terminal-meter__dzd" data-meter-dzd>~0.00 DZD</span>
+    </div>
+    <div class="pi-terminal-meter__row">
+      <span class="pi-terminal-meter__label">tokens</span>
+      <div class="pi-terminal-meter__track" aria-hidden="true">
+        <div class="pi-terminal-meter__fill" data-meter-fill style="width: 0%"></div>
+      </div>
+      <span class="pi-terminal-meter__values" data-meter-values>0 / 50k</span>
+    </div>
+    <div class="pi-terminal-meter__meta">
+      <span data-meter-meta>0 requests</span>
+      <span class="pi-terminal-meter__rate" data-meter-rate>8.50 DZD / 1k tok</span>
+    </div>
+  </div>
+
+  <script type="application/json" data-terminal-context>{{ $shellCtx | jsonify }}</script>
+</div>

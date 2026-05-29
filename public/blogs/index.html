@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark" data-theme-mode="system">
+<html lang="en" data-theme="light" data-theme-mode="light">
     <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,7 @@
           const root = document.documentElement;
           const mq = window.matchMedia("(prefers-color-scheme: dark)");
           const stored = localStorage.getItem(storageKey);
-          const mode = stored === "light" || stored === "dark" ? stored : "system";
+          const mode = stored === "light" || stored === "dark" ? stored : "light";
           const theme = mode === "system" ? (mq.matches ? "dark" : "light") : mode;
           root.dataset.theme = theme;
           root.dataset.themeMode = mode;
@@ -65,6 +65,8 @@
 
         
         <script src="/js/theme.min.js" defer></script>
+
+        
     </head>
     <body class="min-h-screen font-serif text-pi">
         <div class="site-tilt-layer">
@@ -78,9 +80,6 @@
         
 
         <nav class="pi-nav-links" aria-label="Main">
-            
-            <a href="http://localhost:1313/"
-               class="pi-nav-link">Projects</a>
             
             <a href="http://localhost:1313/blogs/"
                class="pi-nav-link is-active">Blog</a>
@@ -124,10 +123,6 @@
         </div>
 
         <nav class="pi-mobile-menu-links" aria-label="Mobile">
-            
-            <a href="http://localhost:1313/"
-               class="pi-nav-link"
-               data-menu-link>Projects</a>
             
             <a href="http://localhost:1313/blogs/"
                class="pi-nav-link is-active"

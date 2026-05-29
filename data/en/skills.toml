@@ -1,0 +1,175 @@
+[[categories]]
+name = "Languages"
+emoji = "⌨️"
+
+  [[categories.items]]
+  name = "Python"
+  icon = "devicon-python-plain"
+
+  [[categories.items]]
+  name = "Go"
+  icon = "devicon-go-plain"
+
+  [[categories.items]]
+  name = "Bash"
+  icon = "devicon-bash-plain"
+
+  [[categories.items]]
+  name = "PowerShell"
+
+  [[categories.items]]
+  name = "TypeScript"
+  icon = "devicon-typescript-plain"
+
+[[categories]]
+name = "Backend"
+emoji = "⚙️"
+
+  [[categories.items]]
+  name = "FastAPI"
+  icon = "devicon-fastapi-plain"
+
+  [[categories.items]]
+  name = "Django"
+  icon = "devicon-django-plain"
+
+[[categories]]
+name = "Cloud"
+emoji = "☁️"
+
+  [[categories.items]]
+  name = "AWS"
+  icon = "devicon-amazonwebservices-plain-wordmark"
+
+  [[categories.items]]
+  name = "Azure"
+  icon = "devicon-azure-plain"
+
+  [[categories.items]]
+  name = "GCP"
+  icon = "devicon-googlecloud-plain"
+
+  [[categories.items]]
+  name = "Huawei HCS"
+
+[[categories]]
+name = "DevOps & Infrastructure"
+emoji = "🏗️"
+
+  [[categories.items]]
+  name = "Docker"
+  icon = "devicon-docker-plain"
+
+  [[categories.items]]
+  name = "Kubernetes"
+  icon = "devicon-kubernetes-plain"
+
+  [[categories.items]]
+  name = "Terraform"
+  icon = "devicon-terraform-plain"
+
+  [[categories.items]]
+  name = "Ansible"
+  icon = "devicon-ansible-plain"
+
+  [[categories.items]]
+  name = "AWX"
+
+  [[categories.items]]
+  name = "NetBox"
+
+  [[categories.items]]
+  name = "GitHub"
+  icon = "devicon-github-original"
+
+  [[categories.items]]
+  name = "GitLab"
+  icon = "devicon-gitlab-plain"
+
+  [[categories.items]]
+  name = "GHCR"
+
+[[categories]]
+name = "Databases"
+emoji = "🗄️"
+
+  [[categories.items]]
+  name = "Neo4j"
+  icon = "devicon-neo4j-plain"
+
+  [[categories.items]]
+  name = "PostgreSQL"
+  icon = "devicon-postgresql-plain"
+
+  [[categories.items]]
+  name = "Supabase"
+  icon = "devicon-supabase-plain"
+
+[[categories]]
+name = "AI Frameworks"
+emoji = "🔗"
+
+  [[categories.items]]
+  name = "LangChain"
+
+  [[categories.items]]
+  name = "SmolAgents"
+
+  [[categories.items]]
+  name = "HuggingFace"
+
+  [[categories.items]]
+  name = "Ollama"
+
+  [[categories.items]]
+  name = "PyTorch"
+  icon = "devicon-pytorch-original"
+
+  [[categories.items]]
+  name = "CrewAI"
+
+[[categories]]
+name = "AI Platforms"
+emoji = "🤖"
+
+  [[categories.items]]
+  name = "Amazon Bedrock"
+  icon = "devicon-amazonwebservices-plain-wordmark"
+
+  [[categories.items]]
+  name = "Google ADK"
+  icon = "devicon-googlecloud-plain"
+
+  [[categories.items]]
+  name = "RunPod"
+
+[[categories]]
+name = "Security"
+emoji = "⚔️"
+
+  [[categories.items]]
+  name = "OWASP Web Top 10"
+
+  [[categories.items]]
+  name = "OWASP LLM Top 10"
+
+  [[categories.items]]
+  name = "OWASP API Top 10"
+
+  [[categories.items]]
+  name = "Trivy"
+
+  [[categories.items]]
+  name = "Synk"
+
+  [[categories.items]]
+  name = "SAST"
+
+  [[categories.items]]
+  name = "DAST"
+
+  [[categories.items]]
+  name = "SCA"
+
+  [[categories.items]]
+  name = "Detection Engineering & SIEMs"
