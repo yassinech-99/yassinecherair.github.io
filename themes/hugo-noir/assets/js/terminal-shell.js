@@ -68,6 +68,23 @@
 
   const trimLinkTrailing = (url) => url.replace(/[.,;:!?)'\]]+$/, "");
 
+  const commonPrefix = (strings) => {
+    if (!strings.length) return "";
+    let prefix = strings[0];
+    for (let i = 1; i < strings.length; i++) {
+      let j = 0;
+      while (
+        j < prefix.length &&
+        j < strings[i].length &&
+        prefix[j].toLowerCase() === strings[i][j].toLowerCase()
+      ) {
+        j += 1;
+      }
+      prefix = prefix.slice(0, j);
+    }
+    return prefix;
+  };
+
   const linkifyElement = (el, plainText) => {
     const text = plainText ?? el.textContent ?? "";
     if (!text || !hasLinkableContent(text)) return;
@@ -129,6 +146,16 @@
       this.busy = false;
       this.exhausted = false;
       this.abortController = null;
+      this.completePanel = widget.querySelector("[data-terminal-complete]");
+      this.completeList = widget.querySelector("[data-terminal-complete-list]");
+      this.slashCommands = (this.ctx.commands || []).map((c) => ({
+        path: `/${c.name}`,
+        name: c.name,
+        description: c.description || "",
+      }));
+      this.completeOpen = false;
+      this.completeIndex = -1;
+      this.completeMatches = [];
 
       this.budget = {
         total: Number(this.ctx.budget?.total_tokens) || 50000,
@@ -170,13 +197,41 @@
         void this.handleSubmit();
       });
 
+      this.input.addEventListener("input", () => this.syncCompletionOnInput());
+
       this.input.addEventListener("keydown", (e) => {
-        if (e.key === "ArrowUp") {
+        if (e.key === "Escape") {
+          if (this.completeOpen) {
+            e.preventDefault();
+            this.closeComplete();
+          }
+          return;
+        }
+
+        if (e.key === "Tab") {
+          if (!this.completionDisabled()) {
+            e.preventDefault();
+            this.onCompleteTab(e.shiftKey);
+          }
+          return;
+        }
+
+        if (e.key === "Enter" && this.completeOpen && this.completeIndex >= 0) {
           e.preventDefault();
-          this.navigateHistory(-1);
-        } else if (e.key === "ArrowDown") {
+          const match = this.completeMatches[this.completeIndex];
+          if (match) this.applyComplete(match);
+          this.closeComplete();
+          return;
+        }
+
+        if (e.key === "ArrowUp" || e.key === "ArrowDown") {
           e.preventDefault();
-          this.navigateHistory(1);
+          const delta = e.key === "ArrowUp" ? -1 : 1;
+          if (this.completeOpen && this.completeMatches.length) {
+            this.navigateComplete(delta);
+          } else {
+            this.navigateHistory(delta);
+          }
         }
       });
 
@@ -233,6 +288,7 @@
     }
 
     setExhausted() {
+      this.closeComplete();
       this.exhausted = true;
       this.widget.classList.add("is-exhausted");
       this.input.disabled = true;
@@ -243,6 +299,7 @@
     }
 
     setBusy(busy) {
+      if (busy) this.closeComplete();
       this.busy = busy;
       this.widget.classList.toggle("is-busy", busy);
       if (!this.exhausted) this.input.disabled = busy;
@@ -319,7 +376,164 @@
       if (this.remaining() <= 0) this.setExhausted();
     }
 
+    completionDisabled() {
+      return this.busy || this.exhausted;
+    }
+
+    getInputCommandToken() {
+      const first = this.input.value.split(/\s+/)[0] || "";
+      return first.toLowerCase();
+    }
+
+    setInputCommandToken(newToken) {
+      const parts = this.input.value.split(/\s+/);
+      parts[0] = newToken;
+      this.input.value = parts.join(" ");
+    }
+
+    filterCommands() {
+      const token = this.getInputCommandToken();
+      if (!token.startsWith("/")) return [];
+      return this.slashCommands.filter((c) => c.path.toLowerCase().startsWith(token));
+    }
+
+    applyComplete(match) {
+      const parts = this.input.value.split(/\s+/);
+      const rest = parts.slice(1).join(" ");
+      this.input.value = rest ? `${match.path} ${rest}` : match.path;
+    }
+
+    openComplete(matches, activeIndex) {
+      this.completeOpen = true;
+      this.completeMatches = matches;
+      if (this.completePanel) this.completePanel.hidden = false;
+      this.input.setAttribute("aria-expanded", "true");
+      this.renderComplete(matches, activeIndex);
+    }
+
+    closeComplete() {
+      this.completeOpen = false;
+      this.completeIndex = -1;
+      this.completeMatches = [];
+      if (this.completePanel) this.completePanel.hidden = true;
+      this.input.setAttribute("aria-expanded", "false");
+      this.input.removeAttribute("aria-activedescendant");
+      if (this.completeList) this.completeList.innerHTML = "";
+    }
+
+    renderComplete(matches, activeIndex) {
+      if (!this.completeList) return;
+      this.completeList.innerHTML = "";
+      matches.forEach((m, i) => {
+        const li = document.createElement("li");
+        li.className =
+          "pi-terminal-complete__item" + (i === activeIndex ? " is-active" : "");
+        li.id = `pi-terminal-complete-opt-${i}`;
+        li.setAttribute("role", "option");
+        li.setAttribute("aria-selected", i === activeIndex ? "true" : "false");
+
+        const cmd = document.createElement("span");
+        cmd.className = "pi-terminal-complete__cmd";
+        cmd.textContent = m.path;
+
+        const desc = document.createElement("span");
+        desc.className = "pi-terminal-complete__desc";
+        desc.textContent = m.description;
+
+        li.appendChild(cmd);
+        li.appendChild(desc);
+
+        li.addEventListener("mousedown", (ev) => {
+          ev.preventDefault();
+          this.applyComplete(m);
+          this.closeComplete();
+          this.input.focus();
+        });
+
+        this.completeList.appendChild(li);
+      });
+
+      if (activeIndex >= 0) {
+        this.input.setAttribute("aria-activedescendant", `pi-terminal-complete-opt-${activeIndex}`);
+        this.completeList.querySelector(".is-active")?.scrollIntoView({ block: "nearest" });
+      } else {
+        this.input.removeAttribute("aria-activedescendant");
+      }
+    }
+
+    syncCompletionOnInput() {
+      if (this.completionDisabled()) {
+        this.closeComplete();
+        return;
+      }
+
+      const token = this.getInputCommandToken();
+      if (!token.startsWith("/")) {
+        this.closeComplete();
+        return;
+      }
+
+      const matches = this.filterCommands();
+      if (!matches.length) {
+        this.closeComplete();
+        return;
+      }
+
+      this.completeIndex = -1;
+      this.openComplete(matches, -1);
+    }
+
+    onCompleteTab(reverse = false) {
+      const matches = this.filterCommands();
+      if (!matches.length) {
+        this.closeComplete();
+        return;
+      }
+
+      if (matches.length === 1) {
+        this.applyComplete(matches[0]);
+        this.completeIndex = 0;
+        this.openComplete(matches, 0);
+        return;
+      }
+
+      const token = this.getInputCommandToken();
+      const paths = matches.map((m) => m.path);
+      const prefix = commonPrefix(paths);
+
+      if (this.completeIndex < 0 && prefix.length > token.length) {
+        this.setInputCommandToken(prefix);
+        this.completeIndex = reverse ? matches.length - 1 : 0;
+        this.applyComplete(matches[this.completeIndex]);
+        this.openComplete(matches, this.completeIndex);
+        return;
+      }
+
+      const delta = reverse ? -1 : 1;
+      if (this.completeIndex < 0) {
+        this.completeIndex = reverse ? matches.length - 1 : 0;
+      } else {
+        this.completeIndex = (this.completeIndex + delta + matches.length) % matches.length;
+      }
+
+      this.applyComplete(matches[this.completeIndex]);
+      this.openComplete(matches, this.completeIndex);
+    }
+
+    navigateComplete(delta) {
+      if (!this.completeMatches.length) return;
+      const len = this.completeMatches.length;
+      if (this.completeIndex < 0) {
+        this.completeIndex = delta < 0 ? len - 1 : 0;
+      } else {
+        this.completeIndex = (this.completeIndex + delta + len) % len;
+      }
+      this.applyComplete(this.completeMatches[this.completeIndex]);
+      this.renderComplete(this.completeMatches, this.completeIndex);
+    }
+
     navigateHistory(delta) {
+      this.closeComplete();
       if (!this.history.length) return;
       if (this.historyIndex < 0) this.historyIndex = this.history.length;
       this.historyIndex = Math.max(0, Math.min(this.history.length, this.historyIndex + delta));
@@ -348,6 +562,7 @@
     }
 
     async handleSubmit() {
+      this.closeComplete();
       const raw = this.input.value.trim();
       if (!raw || this.busy) return;
 

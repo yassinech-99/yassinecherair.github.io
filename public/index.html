@@ -240,17 +240,30 @@
 
     <form class="pi-terminal-input-row" data-terminal-form autocomplete="off">
       <span class="pi-terminal-input-prompt" aria-hidden="true">yc@portfolio ›</span>
-      <input
-        class="pi-terminal-input"
-        data-terminal-input
-        type="text"
-        spellcheck="false"
-        autocapitalize="off"
-        autocomplete="off"
-        placeholder="Type /help…"
-        aria-label="Terminal command input"
-        disabled
-      />
+      <div class="pi-terminal-input-wrap">
+        <input
+          class="pi-terminal-input"
+          data-terminal-input
+          type="text"
+          spellcheck="false"
+          autocapitalize="off"
+          autocomplete="off"
+          aria-autocomplete="list"
+          aria-expanded="false"
+          aria-controls="pi-terminal-complete-list"
+          placeholder="Type /help…"
+          aria-label="Terminal command input"
+          disabled
+        />
+        <div class="pi-terminal-complete" data-terminal-complete hidden>
+          <ul
+            id="pi-terminal-complete-list"
+            class="pi-terminal-complete__list"
+            role="listbox"
+            data-terminal-complete-list
+          ></ul>
+        </div>
+      </div>
     </form>
   </div>
 
