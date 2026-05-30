@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang | default "en" }}" data-theme="light" data-theme-mode="light">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} - {{ .Site.Title }}{{ end }}</title>
+
+        <script>(() => {
+          const storageKey = "pi:theme";
+          const root = document.documentElement;
+          const mq = window.matchMedia("(prefers-color-scheme: dark)");
+          const stored = localStorage.getItem(storageKey);
+          const mode = stored === "light" || stored === "dark" ? stored : "light";
+          const theme = mode === "system" ? (mq.matches ? "dark" : "light") : mode;
+          root.dataset.theme = theme;
+          root.dataset.themeMode = mode;
+          root.style.colorScheme = theme;
+          root.classList.toggle("dark", theme === "dark");
+        })();</script>
+
+        <link rel="icon" href="{{ "favicon.ico" | relURL }}" type="image/x-icon">
+        <link rel="shortcut icon" href="{{ "favicon.ico" | relURL }}" type="image/x-icon">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+
+        {{ $pi := resources.Get "css/pi-tokens.css" | minify }}
+        {{ $portfolio := resources.Get "css/portfolio.css" | minify }}
+        <link rel="stylesheet" href="{{ $pi.RelPermalink }}">
+        <link rel="stylesheet" href="{{ $portfolio.RelPermalink }}">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+          tailwind.config = {
+            darkMode: 'class',
+            theme: {
+              extend: {
+                fontFamily: {
+                  sans: ['Newsreader', 'Georgia', 'serif'],
+                  mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+                },
+                colors: {
+                  'bg-primary-light': '#ebe7e4',
+                  'text-primary-light': '#252f3d',
+                  'text-secondary-light': '#5c5752',
+                  'border-primary-light': '#8b847d',
+                  'accent-light': '#4b607c',
+                  'bg-primary-dark': '#161d27',
+                  'bg-secondary-dark': '#212730',
+                  'bg-tertiary-dark': '#252f3d',
+                  'text-primary-dark': '#ebe7e4',
+                  'text-secondary-dark': '#9fa4ab',
+                  'border-primary-dark': '#495059',
+                  'accent-dark': '#6a9fcc',
+                },
+              },
+            },
+          };
+        </script>
+
+        {{ $themeJs := resources.Get "js/theme.js" | minify }}
+        <script src="{{ $themeJs.RelPermalink }}" defer></script>
+
+        {{ if .IsHome }}
+        {{ $terminalCss := resources.Get "css/terminal.css" | minify }}
+        <link rel="stylesheet" href="{{ $terminalCss.RelPermalink }}">
+        {{ $terminalJs := resources.Get "js/terminal-shell.js" | minify }}
+        <script src="{{ $terminalJs.RelPermalink }}" defer></script>
+        {{ end }}
+    </head>
+    <body class="min-h-screen font-serif text-pi{{ if .IsHome }} page-home-harness page-harness-only{{ end }}">
+        <div class="site-tilt-layer">
+            {{ if not .IsHome }}{{ partial "header" . }}{{ end }}
+            <main class="page-shell">
+                {{ block "main" . }}{{ end }}
+            </main>
+            {{ if not .IsHome }}{{ partial "footer" . }}{{ end }}
+        </div>
+    </body>
+</html>
