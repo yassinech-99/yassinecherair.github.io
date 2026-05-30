@@ -4,7 +4,7 @@
 <header class="pi-nav">
     <div class="pi-nav-inner">
         {{ with $author }}
-        <a href="{{ "/" | relURL }}" class="pi-nav-brand">{{ .name }}</a>
+        <a href="{{ site.Home.RelPermalink }}" class="pi-nav-brand">{{ .name }}</a>
         {{ end }}
 
         <nav class="pi-nav-links" aria-label="Main">
