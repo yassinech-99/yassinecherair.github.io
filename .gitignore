@@ -1,9 +1,60 @@
+# Hugo build output (CI builds with production baseURL — never commit)
+/public/
 
+# Hugo cache / lock
 .hugo_build.lock
-*.docx
+/resources/
 resources/_gen/
+
+# Dependencies
+node_modules/
+package-lock.json
+themes/hugo-noir/node_modules/
+themes/hugo-noir/package-lock.json
+
+# Theme demo (not used by this site)
+themes/hugo-noir/exampleSite/
+
+# OS
 .DS_Store
+**/.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# Editors / IDE
+.vscode/
+.idea/
+.cursor/
+*.swp
+*~
+*.sublime-*
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+secrets.*
+
+# Local AI / dev notes (optional — remove line to publish CLAUDE.md)
+CLAUDE.md
+
+# Logs & temp
+*.log
+npm-debug.log*
+*.tmp
+*.temp
+.cache/
+
+# Office / misc
+*.docx
+*.bak
+*.orig
+
+# Local tooling
 .claude/
 .claude.json
 .mcp.json
-

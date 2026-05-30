@@ -416,7 +416,7 @@
         } else if (e.key === "Enter") {
           e.preventDefault();
           const post = this.blogPosts[this.blogIndex];
-          if (post) this.openBlogPage(post);
+          if (post) this.previewBlogPost(post);
         }
         return;
       }
@@ -489,7 +489,7 @@
 
       const hint = document.createElement("div");
       hint.className = "pi-terminal-line pi-terminal-line--dim";
-      hint.textContent = "↑↓ select · enter open · esc back";
+      hint.textContent = "↑↓ select · enter preview · esc back";
       this.body.appendChild(hint);
 
       const list = document.createElement("div");
@@ -778,6 +778,24 @@
       const baseUrl = String(this.ctx.site?.baseURL || "").replace(/\/$/, "");
       const path = baseUrl ? `${baseUrl}/blog/${post.slug}/` : `/blog/${post.slug}/`;
       window.location.href = path;
+    }
+
+    async previewBlogPost(post) {
+      this.exitBlogToRepl();
+      this.setBusy(true);
+      this.input.disabled = true;
+      const baseUrl = String(this.ctx.site?.baseURL || "").replace(/\/$/, "");
+      const url = baseUrl ? `${baseUrl}/blog/${post.slug}/` : `/blog/${post.slug}/`;
+      const lines = [
+        { type: "success", text: post.title },
+        { type: "dim", text: [post.date, post.summary].filter(Boolean).join("  —  ") },
+        { type: "dim", text: "" },
+        { type: "tool", text: `  → ${url}` },
+      ];
+      await this.streamLines(lines, null);
+      this.charge(this.budget.base);
+      this.setBusy(false);
+      if (!this.exhausted) this.input.focus();
     }
 
     tryOpenReadDeepLink() {
