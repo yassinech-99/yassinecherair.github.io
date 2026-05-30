@@ -3,7 +3,7 @@
     <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Blog - Yassine Cherair</title>
+        <title>Solving context window overflow in a stateful LLM agent - Yassine Cherair</title>
 
         <script>(() => {
           const storageKey = "pi:theme";
@@ -193,49 +193,70 @@
 
             <main class="page-shell">
                 
-<div class="py-8 pi-content">
-    <h1 class="pi-page-title">Blog</h1>
-
+<article class="py-8 pi-content-wide">
     
-    <article class="pi-blog-item">
-        <time class="pi-blog-date" datetime="2026-05-30">May 30, 2026</time>
-        <a href="/blog/gliner-pii-data-loss-prevention/" class="pi-blog-title">PII detection that actually understands context: NVIDIA GLiNER-PII</a>
+    <a href="/blog/" class="font-mono text-sm text-pi-muted mb-8 inline-block">← All posts</a>
+    
+
+    <header class="mb-10 pb-8 border-b" style="border-color: var(--line)">
         
-        <p class="mt-2" style="color: var(--copy)">Traditional DLP fails on unstructured text. Here&#39;s how a 570M-parameter span-scoring transformer handles what regex can&#39;t — architecture, fine-tuning, benchmarks, and a live demo.</p>
-        
-        <div class="flex flex-wrap gap-2 mt-3">
+        <div class="flex flex-wrap gap-2 mb-4">
             
-            <span class="pi-chip">ai</span>
+            <span class="pi-chip">llm</span>
             
-            <span class="pi-chip">security</span>
+            <span class="pi-chip">langchain</span>
             
-            <span class="pi-chip">dlp</span>
+            <span class="pi-chip">agents</span>
             
-            <span class="pi-chip">pii</span>
+            <span class="pi-chip">context-window</span>
             
-            <span class="pi-chip">nvidia</span>
-            
-            <span class="pi-chip">nlp</span>
+            <span class="pi-chip">networking</span>
             
         </div>
-    </article>
-    
+        
 
-    
-    
-    <div class="mt-12 pt-8 border-t" style="border-color: var(--line)">
-        <span class="pi-section-label">External</span>
-        <h2 class="pi-section-title mb-6 mt-2">Also on the web</h2>
+        <h1 class="font-serif text-4xl md:text-5xl font-medium leading-tight text-pi mb-4">Solving context window overflow in a stateful LLM agent</h1>
+
         
-        <article class="pi-blog-item">
-            <p class="pi-blog-date"></p>
-            <a href="" target="_blank" rel="noopener noreferrer" class="pi-blog-title"> ↗</a>
-            <p class="mt-2" style="color: var(--copy)"></p>
-        </article>
+        <p class="text-lg mb-4" style="color: var(--copy)">When your agent&#39;s conversation history grows faster than the context window — a summarization approach that preserves session state.</p>
         
+
+        <time datetime="2026-02-03" class="font-mono text-xs text-pi-muted block mb-3">February 3, 2026</time>
+        <p class="font-mono text-xs text-pi-muted">
+            Open in harness → <a href="/?read=context-window-overflow-summarization" class="text-pi-accent underline">/?read=context-window-overflow-summarization</a>
+        </p>
+    </header>
+
+    <div class="pi-prose pi-article-content">
+        <h2 id="the-problem-with-stateful-agents">The problem with stateful agents</h2>
+<p>Most LLM agent demos are stateless: user sends a message, agent responds, done. Real workflows are different. A NetDevOps engineer running an Ansible playbook against an emulated device might send 40–60 commands in a single session. Each command&rsquo;s output needs to be in context so the agent knows the current device state.</p>
+<p>At around message 20, you hit the context limit. What then?</p>
+<h2 id="option-1-sliding-window">Option 1: sliding window</h2>
+<p>Keep only the last N messages. Simple. The problem: early messages often contain critical state. If you configured an interface in message 3 and ask about it in message 45, a sliding window that starts at message 30 produces a wrong answer — the agent thinks the interface was never configured.</p>
+<p>For a network device emulator this is especially bad. The device <em>is</em> its state. Forgetting earlier config is equivalent to the device rebooting mid-session.</p>
+<h2 id="option-2-summarization-node">Option 2: summarization node</h2>
+<p>When the token count of the conversation history exceeds a threshold, trigger a summarization step:</p>
+<ol>
+<li>Pass the full history to a separate LLM call with a prompt focused on extracting device state.</li>
+<li>The summary captures: current CLI mode, applied configuration, interface states, routing table entries, any error conditions encountered.</li>
+<li>Replace the history with the summary. Subsequent messages get the summary as context instead of the raw transcript.</li>
+</ol>
+<p>The summary prompt matters a lot. A generic &ldquo;summarize this conversation&rdquo; produces prose that&rsquo;s hard for the agent to use. A structured prompt — &ldquo;extract current device state in the format: mode / config / interfaces / routes&rdquo; — produces something the agent can reason against reliably.</p>
+<h2 id="implementation">Implementation</h2>
+<p>We used LangChain&rsquo;s <code>ConversationSummaryMemory</code> as a starting point, then customized the summary prompt heavily for the network domain. The standard prompt produces natural language summaries; we needed structured output that listed specific config state.</p>
+<p>The summarization trigger was token-count based. We counted tokens before each LLM call and triggered summarization when we exceeded 60% of the context limit. That left headroom for the current request plus the response.</p>
+<h2 id="the-tradeoff-we-accepted">The tradeoff we accepted</h2>
+<p>Summarization is lossy. The raw transcript contains information the summary might drop. In testing, we found the main failure mode was losing the <em>order</em> of operations — the summary knew <em>what</em> was configured but occasionally lost <em>when</em> relative to other changes, which mattered for troubleshooting scenarios.</p>
+<p>We logged every case where the agent&rsquo;s response after summarization differed from what a full-context response would have been. Most differences were benign. A handful were significant enough to affect playbook output. We documented this as an accepted architectural tradeoff: the alternative (hitting the context limit and failing the session entirely) was worse.</p>
+<h2 id="alternative-we-evaluated-external-session-storage">Alternative we evaluated: external session storage</h2>
+<p>Instead of summarizing into the context window, store session state externally in Neo4j and retrieve relevant state on each query. This sidesteps the context limit entirely — you never need to fit the full history in the window.</p>
+<p>We prototyped it. The retrieval approach worked well for config state (structured, queryable). It worked poorly for conversational flow — the agent needed to understand the <em>sequence</em> of what happened, not just the current state, to handle some error recovery scenarios.</p>
+<p>The hybrid would be ideal: external storage for device state, in-context summary for session flow. We ran out of project runway before implementing it. The summarization approach was good enough to ship.</p>
+<h2 id="lesson">Lesson</h2>
+<p>Context window management is an architectural concern, not an implementation detail. Design for it before you need it. The shape of your data — structured state vs. conversational history — determines which approach fits. They&rsquo;re not the same problem.</p>
+
     </div>
-    
-</div>
+</article>
 
             </main>
             <footer class="pi-footer">

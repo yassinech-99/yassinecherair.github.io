@@ -346,14 +346,16 @@
 
     async streamLine(line, signal) {
       const text = line.text || "";
-      const delay = prefersReducedMotion ? 0 : (line.delay_ms ?? 14);
+      const delay = prefersReducedMotion ? 0 : (line.delay_ms ?? 6);
       const el = document.createElement("div");
       el.className = `pi-terminal-line pi-terminal-line--${line.type || "dim"}${
         line.category ? " pi-terminal-line--category" : ""
       }${line.prose ? " pi-terminal-line--prose" : ""}`;
+      const textNode = document.createTextNode("");
       const cursor = document.createElement("span");
       cursor.className = "pi-terminal-cursor";
       cursor.setAttribute("aria-hidden", "true");
+      el.appendChild(textNode);
       el.appendChild(cursor);
       this.body.appendChild(el);
       this.scrollToBottom();
@@ -368,7 +370,7 @@
 
       for (let i = 0; i < text.length; i++) {
         if (signal?.aborted) return i;
-        cursor.before(text.charAt(i));
+        textNode.textContent = text.slice(0, i + 1);
         await sleep(delay);
       }
       cursor.remove();
@@ -379,7 +381,7 @@
 
     computeCost(cmd, charsStreamed, isClear) {
       if (isClear) return this.budget.clearCost;
-      if (cmd === "/usage") return this.budget.usageCost;
+      if (cmd === "/usage") return 0;
       if (cmd === "/blog") return this.budget.base;
       return this.budget.base + charsStreamed * this.budget.charsPerToken;
     }
@@ -414,7 +416,7 @@
         } else if (e.key === "Enter") {
           e.preventDefault();
           const post = this.blogPosts[this.blogIndex];
-          if (post) this.openBlogReader(post);
+          if (post) this.openBlogPage(post);
         }
         return;
       }
@@ -487,7 +489,7 @@
 
       const hint = document.createElement("div");
       hint.className = "pi-terminal-line pi-terminal-line--dim";
-      hint.textContent = "↑↓ select · enter read · esc back";
+      hint.textContent = "↑↓ select · enter open · esc back";
       this.body.appendChild(hint);
 
       const list = document.createElement("div");
@@ -543,13 +545,6 @@
       const reader = document.createElement("div");
       reader.className = "pi-terminal-reader";
 
-      const baseUrl = String(this.ctx.site?.baseURL || "").replace(/\/$/, "");
-      const webLine = document.createElement("div");
-      webLine.className = "pi-terminal-line pi-terminal-line--dim";
-      webLine.textContent = baseUrl
-        ? `w — open ${baseUrl}/blog/${post.slug}/ in browser`
-        : `w — open /blog/${post.slug}/ in browser`;
-
       const hint = document.createElement("div");
       hint.className = "pi-terminal-reader__hint pi-terminal-line pi-terminal-line--dim";
       hint.textContent = "esc · q back  ·  ↑↓ scroll  ·  g/G top/bottom";
@@ -563,7 +558,6 @@
       pre.textContent = post.body || "(empty post)";
 
       viewport.appendChild(pre);
-      reader.appendChild(webLine);
       reader.appendChild(hint);
       reader.appendChild(viewport);
       this.body.appendChild(reader);
@@ -780,6 +774,12 @@
       }
     }
 
+    openBlogPage(post) {
+      const baseUrl = String(this.ctx.site?.baseURL || "").replace(/\/$/, "");
+      const path = baseUrl ? `${baseUrl}/blog/${post.slug}/` : `/blog/${post.slug}/`;
+      window.location.href = path;
+    }
+
     tryOpenReadDeepLink() {
       const slug = new URLSearchParams(window.location.search).get("read");
       if (!slug) return;
@@ -788,14 +788,11 @@
       const post = posts.find((p) => p.slug === slug);
       if (!post) return;
 
-      this.enterBlogList();
-      const idx = posts.findIndex((p) => p.slug === slug);
-      if (idx >= 0) this.blogIndex = idx;
-      this.openBlogReader(post);
-
       const url = new URL(window.location.href);
       url.searchParams.delete("read");
       history.replaceState(null, "", url.pathname + url.hash);
+
+      this.openBlogPage(post);
     }
 
     async handleSubmit() {
@@ -817,9 +814,20 @@
 
       const cmd = raw.toLowerCase().split(/\s+/)[0];
       if (!cmd.startsWith("/")) {
+        const jokes = [
+          "this is a terminal, not a search bar.",
+          "i'm flattered you're talking to me, but i only speak slash.",
+          "bro typed into a portfolio terminal like it's ChatGPT.",
+          "nice try. this isn't google.",
+          "i don't do natural language. i do /commands.",
+          "my therapist said to only accept structured input.",
+          "404: vibe not found.",
+          "skill issue. try /help.",
+        ];
+        const quip = jokes[Math.floor(Math.random() * jokes.length)];
         await this.respond([
-          { type: "warn", text: "commands must start with /" },
-          { type: "dim", text: "try /help" },
+          { type: "warn", text: quip },
+          { type: "dim", text: "try /help to see what i actually understand." },
         ], raw, false);
         return;
       }

@@ -1,0 +1,31 @@
+[settings]
+show_on_boot = true
+chance_after_command = 0.08
+
+[[ads]]
+sponsor = "TokenMart"
+headline = "50,000 tokens — limited harness drop"
+detail = "Pay in DZD. Refresh page if you miss the sale."
+price = "~340 DZD"
+tag = "SPONSORED"
+
+[[ads]]
+sponsor = "RunPod"
+headline = "GPU time for your next /projects demo"
+detail = "Code YC15 — definitely not invalid"
+price = "499 DZD/hr"
+tag = "AD"
+
+[[ads]]
+sponsor = "Harness Pro™"
+headline = "Unlimited /experience scrollback"
+detail = "Terms: still static site. Lawyers: imaginary."
+price = "0 DZD*"
+tag = "SPONSORED"
+
+[[ads]]
+sponsor = "DZD Exchange"
+headline = "Convert tokens to Algerian dinar at 8.50 / 1k"
+detail = "Rates may fluctuate with your /usage bar."
+price = "no refunds"
+tag = "SPONSORED"

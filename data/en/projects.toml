@@ -1,14 +1,14 @@
 [[projects]]
-  title = "AI-Powered Network Device Emulator"
+  title = "AI-Powered Network Sandbox Platform"
   description = "LLM that roleplays as a real network device — SSH + RESTCONF interfaces, session state, YANG/CLI grounding via RAG. Ansible playbooks and Terraform providers connect with no changes. ~80% output match vs real hardware."
-  tech = "Python,LangChain,Neo4j,FastAPI,RAG,BM25,Ollama"
+  tech = "Python,LangChain,Neo4j,FastAPI,RAG,BM25,HuggingFace"
   highlight = true
   link = "#"
   image = "/images/yc-thumb.svg"
 
 [[projects]]
   title = "Sandboxed Code Execution for AI Agents"
-  description = "Isolated execution environment for LLM agents. Each run spins up a fresh Docker container with gVisor (runsc) kernel-level isolation, captures stdout/stderr, and tears down. Exposed as a LangChain tool with configurable resource limits."
+  description = "Isolated execution environment for LLM agents. Each run spins up a fresh Docker container with gVisor (runsc) kernel-level isolation, captures stdout/stderr, and tears down. Exposed as a Sandbox for DeepAgents Harness."
   tech = "Python,Docker,gVisor,DeepAgents"
   link = "#"
   image = "/images/yc-thumb.svg"

@@ -1,9 +1,9 @@
 # Interactive harness — welcome, commands, token budget
 
 [welcome]
-window_title = "yc@portfolio — harness"
+window_title = "portfolio — v0.1"
 lines = [
-  "This site is the harness — type slash commands to explore.",
+  "type slash commands to explore.",
   "Web articles live at /blog/ · read in-terminal with /blog.",
   "Session budget in the footer · type /usage for details.",
 ]
@@ -20,7 +20,7 @@ base_cost = 400
 chars_per_token = 2
 clear_cost = 50
 usage_cost = 80
-dzd_per_1k_tokens = 8.5
+dzd_per_1k_tokens = 10
 currency = "DZD"
 
 [[commands]]

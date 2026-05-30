@@ -10,15 +10,15 @@
 		
 		
 		
-			<lastBuildDate>Fri, 01 May 2026 00:00:00 +0000</lastBuildDate>
+			<lastBuildDate>Sat, 30 May 2026 00:00:00 +0000</lastBuildDate>
 		
 			<atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
 			<item>
-				<title>Hello from the terminal</title>
-				<link>http://localhost:1313/blog/hello/</link>
-				<pubDate>Fri, 01 May 2026 00:00:00 +0000</pubDate>
-				<guid>http://localhost:1313/blog/hello/</guid>
-				<description>&lt;p&gt;Welcome to the nano-style reader.&lt;/p&gt;&#xA;&lt;p&gt;This post is rendered as plain text inside the portfolio harness. Use the arrow keys to scroll, and press Esc or q to return to the post list.&lt;/p&gt;&#xA;&lt;h2 id=&#34;why-read-blogs-in-a-terminal&#34;&gt;Why read blogs in a terminal?&lt;/h2&gt;&#xA;&lt;p&gt;It keeps the Pi.dev aesthetic consistent: one surface for commands, experience, projects, and writing—without leaving the harness.&lt;/p&gt;&#xA;&lt;p&gt;Line three of filler content so you can test scrolling in a longer document.&#xA;Line four continues the scroll test.&#xA;Line five continues the scroll test.&#xA;Line six continues the scroll test.&#xA;Line seven continues the scroll test.&#xA;Line eight continues the scroll test.&#xA;Line nine continues the scroll test.&#xA;Line ten continues the scroll test.&lt;/p&gt;</description>
+				<title>PII detection that actually understands context: NVIDIA GLiNER-PII</title>
+				<link>http://localhost:1313/blog/gliner-pii-data-loss-prevention/</link>
+				<pubDate>Sat, 30 May 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/blog/gliner-pii-data-loss-prevention/</guid>
+				<description>&lt;h2 id=&#34;the-dlp-problem-nobody-talks-about&#34;&gt;The DLP problem nobody talks about&lt;/h2&gt;&#xA;&lt;p&gt;Most organizations have &lt;em&gt;some&lt;/em&gt; form of data loss prevention. A credit card number in an email gets flagged. An SSN in a database field triggers an alert. These work because the data is structured — there&amp;rsquo;s a known format, a known location, and often a checksum you can validate against.&lt;/p&gt;&#xA;&lt;p&gt;The Luhn algorithm catches &lt;code&gt;4111 1111 1111 1111&lt;/code&gt;. A regex like &lt;code&gt;\d{3}-\d{2}-\d{4}&lt;/code&gt; catches US Social Security Numbers in clean text. A network DLP appliance doing deep packet inspection will intercept these on the wire before they leave the perimeter.&lt;/p&gt;</description>
 			</item>
 	</channel>
 </rss>

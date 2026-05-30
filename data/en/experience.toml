@@ -4,19 +4,36 @@
   company_link = "https://www.huawei.com"
   period = "Sep 2025 – Present"
   country = "Algiers, DZ"
-  description = "Product security on Huawei Cloud Stack (HCS) deployments."
+  description = "Product security engineering on Huawei Cloud Stack (HCS) enterprise deployments."
 
 [[experience]]
-  role = "GENAI Platform Engineer (Freelance)"
-  company = "Cinématique"
+  role = "Generative AI Platform Engineer (Freelance)"
+  company = "Cinématique.co"
   company_link = "https://cinematique.co/"
   period = "Oct 2025 – Feb 2026"
-  country = "Paris, FR (Remote)"
-  description = """Built and maintained custom RunPod serverless worker images for ComfyUI-based image and video generation pipelines, running models including Wan2.2-Animate 14B, ViTPose, YOLOv10, and SeC-4B. Designed base Docker images that all other worker images base from, standardized CUDA setup, dependencies, and entrypoints. Automated model downloads from HuggingFace and CivitAI into RunPod network volumes, containers attach pre-loaded volumes instead of pulling models on every cold start. Tested and validated end-to-end inference pipelines covering pose estimation, video segmentation, VAE decode, and multi-LoRA video generation."""
+  country = "Remote"
+  description = """Built and owns serverless GPU inference fleet on RunPod for ComfyUI video/image pipelines — models: Wan2.2-Animate 14B, ViTPose, YOLOv10, SeC-4B. Engineered base Docker images w/ standardized CUDA setup inherited across all worker images — one change propagates fleet-wide. Eliminated cold-start model pulls by automating HuggingFace + CivitAI downloads into pre-loaded RunPod network volumes at provisioning time. Validated end-to-end inference: pose estimation, video segmentation, VAE decode, multi-LoRA video gen."""
+
 [[experience]]
-  role = "GENAI Developer → NetDevOps Engineer"
+  role = "Cybersecurity Solutions Engineer (mission)"
+  company = "Soltic Algeria"
+  company_link = ""
+  period = "Apr – Aug 2025"
+  country = "Algiers, DZ"
+  description = """Ran the full client lifecycle: discovery, solution design, demos, deployment, and post-go-live support. Deployed firewalls, email security gateways, and endpoint protection for enterprise clients. Trained client teams on product config, policy management, and incident response. Primary technical contact after deployment — support, advisory, and escalations."""
+
+[[experience]]
+  role = "Software Engineer – AI, Automation & R&D"
   company = "InfraXcode"
   company_link = "https://infraxcode.com/"
-  period = "Sep 2023 – Mar 2025"
+  period = "Feb 2024 – Apr 2025"
   country = "Paris, FR (Remote)"
-  description = """Built an LLM-backed network device emulator as part of an R&D platform that allowed NetDevOps and development teams to launch stateful emulated devices instead of provisioning physical sandboxes, enabling them to connect management planes and run Infrastructure-as-Code and configuration management workflows directly on top of the emulator. The agent roleplayed as a real network device by maintaining session state and grounding responses using vendor CLI documentation and YANG specifications through a RAG + BM25 pipeline. I implemented both the SSH server and RESTCONF server from scratch, allowing existing Ansible playbooks and Terraform providers to connect without modification, and the NetOps team successfully executed real automation scripts against it with roughly 80% output parity compared to physical hardware. Major engineering challenges included persistent session state management across runs (evaluating local file storage versus Neo4j), handling context window overflow through a summarization node that compressed conversation history while preserving operational state, improving response accuracy through retrieval tuning and prompt engineering, and addressing latency tradeoffs inherent to token generation. On the same platform, I also developed a test-case orchestration system where engineers could define automation scripts alongside multiple simulated device states such as closed SSH ports, invalid credentials, or missing configurations; the orchestrator dynamically spawned emulated devices for each scenario, executed the scripts, and returned side-by-side results to expose failure cases before deployment to production hardware. Midway through the project, I migrated the platform away from external LLM providers such as OpenAI and Groq by deploying locally hosted fine-tuned Llama models through Hugging Face and Ollama, removing third-party API dependencies and improving inference latency."""
+  description = """R&D engineer on a virtual network lab product — teams spin up stateful emulated devices and run real Ansible playbooks and Terraform providers against them unmodified; built SSH + RESTCONF servers from scratch to handle the protocol layer. Agent grounds every response via hybrid RAG + BM25 over vendor CLI docs and YANG models; real NetOps team ran production scripts against it blind — ~80% output match vs physical hardware. Solved context overflow with a summarization node preserving live device state; evaluated local storage vs Neo4j for session persistence; identified token streaming latency as fundamental constraint — documented and accepted as architectural tradeoff. Shipped test orchestration: engineer declares script + failure states (closed port, bad creds, missing config) → orchestrator spawns emulated device per scenario → returns side-by-side diffs before prod. Migrated inference mid-project from OpenAI/Groq → self-hosted Llama (HuggingFace + Ollama) — cut API dependency and reduced latency."""
+
+[[experience]]
+  role = "NetDevOps Engineer"
+  company = "InfraXcode"
+  company_link = "https://infraxcode.com/"
+  period = "Sep 2023 – Apr 2025"
+  country = "Paris, FR (Remote)"
+  description = """Automated network inventory collection and NetBox sync across Cisco IOS/IOS-XE/NXOS, ACI, Palo Alto via SSH/REST/TextFSM — Total cut manual effort. IaC (Terraform) + config mgmt (Ansible/AWX) across AWS, Azure, GCP. CI/CD via GitHub Actions + GitLab."""

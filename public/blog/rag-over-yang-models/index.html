@@ -3,7 +3,7 @@
     <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Blog - Yassine Cherair</title>
+        <title>RAG over YANG models and vendor CLI docs for network automation - Yassine Cherair</title>
 
         <script>(() => {
           const storageKey = "pi:theme";
@@ -193,49 +193,66 @@
 
             <main class="page-shell">
                 
-<div class="py-8 pi-content">
-    <h1 class="pi-page-title">Blog</h1>
-
+<article class="py-8 pi-content-wide">
     
-    <article class="pi-blog-item">
-        <time class="pi-blog-date" datetime="2026-05-30">May 30, 2026</time>
-        <a href="/blog/gliner-pii-data-loss-prevention/" class="pi-blog-title">PII detection that actually understands context: NVIDIA GLiNER-PII</a>
+    <a href="/blog/" class="font-mono text-sm text-pi-muted mb-8 inline-block">← All posts</a>
+    
+
+    <header class="mb-10 pb-8 border-b" style="border-color: var(--line)">
         
-        <p class="mt-2" style="color: var(--copy)">Traditional DLP fails on unstructured text. Here&#39;s how a 570M-parameter span-scoring transformer handles what regex can&#39;t — architecture, fine-tuning, benchmarks, and a live demo.</p>
-        
-        <div class="flex flex-wrap gap-2 mt-3">
+        <div class="flex flex-wrap gap-2 mb-4">
             
-            <span class="pi-chip">ai</span>
+            <span class="pi-chip">rag</span>
             
-            <span class="pi-chip">security</span>
+            <span class="pi-chip">llm</span>
             
-            <span class="pi-chip">dlp</span>
+            <span class="pi-chip">networking</span>
             
-            <span class="pi-chip">pii</span>
+            <span class="pi-chip">yang</span>
             
-            <span class="pi-chip">nvidia</span>
-            
-            <span class="pi-chip">nlp</span>
+            <span class="pi-chip">langchain</span>
             
         </div>
-    </article>
-    
+        
 
-    
-    
-    <div class="mt-12 pt-8 border-t" style="border-color: var(--line)">
-        <span class="pi-section-label">External</span>
-        <h2 class="pi-section-title mb-6 mt-2">Also on the web</h2>
+        <h1 class="font-serif text-4xl md:text-5xl font-medium leading-tight text-pi mb-4">RAG over YANG models and vendor CLI docs for network automation</h1>
+
         
-        <article class="pi-blog-item">
-            <p class="pi-blog-date"></p>
-            <a href="" target="_blank" rel="noopener noreferrer" class="pi-blog-title"> ↗</a>
-            <p class="mt-2" style="color: var(--copy)"></p>
-        </article>
+        <p class="text-lg mb-4" style="color: var(--copy)">How we grounded an LLM&#39;s network device responses using hybrid BM25 &#43; vector retrieval over YANG schemas and vendor documentation.</p>
         
+
+        <time datetime="2026-03-15" class="font-mono text-xs text-pi-muted block mb-3">March 15, 2026</time>
+        <p class="font-mono text-xs text-pi-muted">
+            Open in harness → <a href="/?read=rag-over-yang-models" class="text-pi-accent underline">/?read=rag-over-yang-models</a>
+        </p>
+    </header>
+
+    <div class="pi-prose pi-article-content">
+        <h2 id="the-grounding-problem">The grounding problem</h2>
+<p>An LLM roleplaying as a Cisco router will hallucinate output. Not because it doesn&rsquo;t know the commands — it does, from training data — but because it doesn&rsquo;t know the <em>specific device state</em> or the <em>exact vendor variant</em> for an output format.</p>
+<p>A <code>show ip ospf neighbor</code> on IOS-XE looks slightly different from IOS. A <code>show interface</code> output on a Nexus device has different fields than on a Catalyst. Ansible playbooks often parse specific column positions. A hallucinated space breaks the parse.</p>
+<p>We needed to ground every response in the actual vendor documentation.</p>
+<h2 id="the-corpus">The corpus</h2>
+<p>Two sources:</p>
+<p><strong>YANG models</strong> — machine-readable schemas published by Cisco, Juniper, and others that define the exact structure of every configuration and operational data tree. They&rsquo;re precise but terse. Great for validating that a response has the right fields; less useful for generating realistic CLI output.</p>
+<p><strong>Vendor CLI docs</strong> — the actual command reference PDFs, converted to text. Verbose. They contain example outputs, which is what we actually needed for generation.</p>
+<p>Both were chunked, embedded, and indexed. For YANG we kept the tree structure in the metadata — a query for <code>bgp neighbor state</code> could retrieve the parent <code>bgp</code> container and its children together.</p>
+<h2 id="why-hybrid-retrieval">Why hybrid retrieval</h2>
+<p>Pure vector search over CLI docs retrieves semantically similar content but can miss exact command names. <code>show ip bgp summary</code> and <code>show bgp ipv4 unicast summary</code> are semantically close but syntactically different — the wrong one in context produces a wrong response.</p>
+<p>BM25 retrieves by exact term match. It catches the command string precisely but misses paraphrases and implicit context.</p>
+<p>Hybrid (BM25 + vector, scores merged via RRF) got us the best of both: exact command matches ranked high, with semantic context filling in when the exact string wasn&rsquo;t in the query.</p>
+<p>In practice: ~80% output parity with real hardware on scripts the NetOps team wrote for production devices. Not perfect. Good enough to run automation validation before touching real hardware.</p>
+<h2 id="context-window-management">Context window management</h2>
+<p>A multi-step Ansible playbook sends many commands in sequence. Each response needs the session history — prior commands and outputs — to maintain device state (e.g., knowing that <code>interface GigabitEthernet0/0</code> was entered means subsequent commands are in interface config mode).</p>
+<p>Full history hits the context limit fast on longer playbooks. We added a summarization node: when history exceeds a threshold, a separate LLM call compresses it into a state summary. The summary preserves what matters — current mode, applied config, interface states — and drops the raw command/response pairs.</p>
+<p>The tradeoff: the summary is a lossy compression. Occasionally a detail that mattered gets dropped. We tracked these cases and tuned the summarization prompt over time.</p>
+<h2 id="what-wed-do-differently">What we&rsquo;d do differently</h2>
+<p><strong>Finer-grained YANG chunking.</strong> We chunked by container node, but some containers are huge. Better: chunk at the leaf list level with parent path as metadata.</p>
+<p><strong>Per-vendor retrieval indices.</strong> We merged all vendors into one index. Cross-vendor contamination was a real source of errors — IOS-XE syntax leaking into Junos responses. Separate indices with routing by detected vendor in the query would clean this up.</p>
+<p><strong>Structured output validation.</strong> After generation, parse the CLI output against the YANG schema. Reject and regenerate if the structure doesn&rsquo;t match. We designed this but ran out of runway before implementing it.</p>
+
     </div>
-    
-</div>
+</article>
 
             </main>
             <footer class="pi-footer">
