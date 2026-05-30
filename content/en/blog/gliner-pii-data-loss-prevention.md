@@ -159,32 +159,54 @@ Evaluation hardware: NVIDIA A100 (Ampere, PCIe/SXM).
 
 NVIDIA NIM exposes GLiNER-PII through an OpenAI-compatible endpoint with additional parameters:
 
-```javascript
-import OpenAI from 'openai';
+```python
+import json
+import os
 
-const openai = new OpenAI({
-  apiKey: process.env.NVIDIA_API_KEY,
-  baseURL: 'https://integrate.api.nvidia.com/v1',
-});
+from openai import OpenAI
 
-const completion = await openai.chat.completions.create({
-  model: "nvidia/gliner-pii",
-  messages: [{
-    role: "user",
-    content: "Dr. Jordan Wells, DOB 04/14/1979, MRN MR-88421. Contact: (202) 555-0193"
-  }],
+client = OpenAI(
+    base_url="https://integrate.api.nvidia.com/v1",
+    api_key=os.environ["NVIDIA_API_KEY"],
+)
 
-  // GLiNER-specific parameters:
-  labels: ["name", "date_of_birth", "medical_record_number", "phone_number"],
-  threshold: 0.5,      // 0–1. Lower = more recall, more false positives. Tune per use case.
-  chunk_length: 384,   // token window for long documents
-  overlap: 128,        // overlap between chunks — prevents entities split at boundaries
-  flat_ner: false,     // allow nested spans
-});
+completion = client.chat.completions.create(
+    model="nvidia/gliner-pii",
+    messages=[{
+        "role": "user",
+        "content": (
+            "Senior Systems Architect Dr. Jordan Wells lives at 2901 Connecticut Ave NW, "
+            "Washington, DC 20008. His account 90012234 (Swift: WFBIUS6S) was flagged at 09:42 AM."
+        ),
+    }],
+    extra_body={
+        "labels": [
+            "All", "name", "first_name", "last_name", "email", "phone_number", "fax_number",
+            "address", "street_address", "city", "state", "postcode", "country", "ssn",
+            "national_id", "tax_id", "certificate_license_number", "credit_debit_card", "cvv",
+            "pin", "account_number", "bank_routing_number", "swift_bic", "iban", "url",
+            "ipv4", "ipv6", "mac_address", "api_key", "user_name", "password", "http_cookie",
+            "device_identifier", "vehicle_identifier", "license_plate", "medical_record_number",
+            "health_plan_beneficiary_number", "biometric_identifier", "latitude", "longitude",
+            "coordinate", "date", "date_time", "date_of_birth", "time", "unique_identifier",
+            "customer_id", "employee_id", "age", "blood_type", "gender", "sexuality",
+            "political_view", "race_ethnicity", "religious_belief", "language",
+            "education_level", "occupation", "employment_status", "company_name",
+        ],
+        "threshold": 0.4,
+        "chunk_length": 384,
+        "overlap": 128,
+        "flat_ner": False,
+    },
+)
 
-const result = JSON.parse(completion.choices[0].message.content);
-// result.entities  → [{text, label, start, end, score}, ...]
-// result.tagged_text → original text with entity markers
+result = json.loads(completion.choices[0].message.content)
+
+print(f"Found {result['total_entities']} entities:")
+for entity in result["entities"]:
+    print(f"  - {entity['text']} ({entity['label']}): {entity['score']}")
+
+print(f"\nTagged text:\n{result['tagged_text']}")
 ```
 
 **`chunk_length` and `overlap`** matter for anything beyond a paragraph. A ten-page contract tokenizes to roughly 4,000 tokens. The model processes it as overlapping 384-token windows; the 128-token overlap prevents an entity that straddles a chunk boundary from being missed by both chunks.
@@ -199,7 +221,7 @@ The recording below shows a Python script calling `nvidia/gliner-pii` via the NI
 
 {{< asciinema src="casts/gliner-pii-demo.cast" id="gliner-cast" cols="100" rows="32" theme="monokai" >}}
 
-To run this yourself: get a [free NIM API key](https://build.nvidia.com/nvidia/gliner-pii), install `openai` (`pip install openai`), and swap in your key.
+To run this yourself: get a [free NIM API key](https://build.nvidia.com/nvidia/gliner-pii), `pip install openai`, then `export NVIDIA_API_KEY=nvapi-...` (or set it in your shell profile).
 
 ---
 
