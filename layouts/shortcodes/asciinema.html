@@ -1,0 +1,29 @@
+{{- $src := .Get "src" -}}
+{{- if not $src -}}
+  {{- errorf "asciinema shortcode: src is required" -}}
+{{- end -}}
+{{- $id := .Get "id" | default "asciinema-cast" -}}
+{{- $cols := .Get "cols" | default 100 -}}
+{{- $rows := .Get "rows" | default 32 -}}
+{{- $theme := .Get "theme" | default "monokai" -}}
+{{- $castURL := $src | relURL -}}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/asciinema-player@3.8.0/dist/bundle/asciinema-player.min.css">
+<div id="{{ $id }}" class="pi-asciinema" style="margin: 1.5rem 0;"></div>
+<script src="https://cdn.jsdelivr.net/npm/asciinema-player@3.8.0/dist/bundle/asciinema-player.min.js"></script>
+<script>
+(function () {
+  var castUrl = {{ $castURL | jsonify }};
+  var el = document.getElementById({{ $id | jsonify }});
+  if (!el || typeof AsciinemaPlayer === "undefined") return;
+  AsciinemaPlayer.create(castUrl, el, {
+    cols: {{ $cols }},
+    rows: {{ $rows }},
+    theme: {{ $theme | jsonify }},
+    autoPlay: false,
+    loop: true,
+    fit: "width",
+    poster: "npt:5",
+    terminalFontFamily: "JetBrains Mono, ui-monospace, monospace",
+  });
+})();
+</script>

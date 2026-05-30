@@ -197,21 +197,7 @@ const result = JSON.parse(completion.choices[0].message.content);
 
 The recording below shows a Python script calling `nvidia/gliner-pii` via the NIM API against a banking record with eight PII entities. Entities are printed with confidence scores and a reconstructed tagged-text output.
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/asciinema-player@3.8.0/dist/bundle/asciinema-player.min.css">
-<div id="gliner-cast" style="margin: 1.5rem 0;"></div>
-<script src="https://cdn.jsdelivr.net/npm/asciinema-player@3.8.0/dist/bundle/asciinema-player.min.js"></script>
-<script>
-AsciinemaPlayer.create('/casts/gliner-pii-demo.cast', document.getElementById('gliner-cast'), {
-  cols: 100,
-  rows: 32,
-  theme: 'monokai',
-  autoPlay: false,
-  loop: true,
-  fit: 'width',
-  poster: 'npt:5',
-  terminalFontFamily: 'JetBrains Mono, ui-monospace, monospace',
-});
-</script>
+{{< asciinema src="casts/gliner-pii-demo.cast" id="gliner-cast" cols="100" rows="32" theme="monokai" >}}
 
 To run this yourself: get a [free NIM API key](https://build.nvidia.com/nvidia/gliner-pii), install `openai` (`pip install openai`), and swap in your key.
 

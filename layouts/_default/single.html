@@ -19,10 +19,7 @@
         <p class="text-lg mb-4" style="color: var(--copy)">{{ .Params.description }}</p>
         {{ end }}
 
-        <time datetime="{{ .Date.Format "2006-01-02" }}" class="font-mono text-xs text-pi-muted block mb-3">{{ .Date.Format "January 2, 2006" }}</time>
-        <p class="font-mono text-xs text-pi-muted">
-            Open in harness → <a href="{{ printf "/?read=%s" .File.ContentBaseName | relURL }}" class="text-pi-accent underline">/?read={{ .File.ContentBaseName }}</a>
-        </p>
+        <time datetime="{{ .Date.Format "2006-01-02" }}" class="font-mono text-xs text-pi-muted block">{{ .Date.Format "January 2, 2006" }}</time>
     </header>
 
     <div class="pi-prose pi-article-content">
