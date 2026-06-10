@@ -42,6 +42,9 @@ secrets.*
 # Local AI / dev notes (optional — remove line to publish CLAUDE.md)
 CLAUDE.md
 
+# Hashnode cross-post drafts (paste into Hashnode; not part of Hugo site)
+/hashnode-blog/
+
 # Logs & temp
 *.log
 npm-debug.log*

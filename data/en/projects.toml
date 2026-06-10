@@ -7,6 +7,13 @@
   image = "/images/yc-thumb.svg"
 
 [[projects]]
+  title = "Autosync — Network Inventory Automation"
+  description = "Pluggable collectors, parsers, and NetBox loaders for live network inventory. Collectors pull state from Cisco IOS/IOS-XE, ACI, and Panorama over SSH/REST; parsers (TextFSM) normalize output; loaders create or update NetBox DCIM/IPAM. GitLab CI runs on inventory YAML changes — edit config, merge, NetBox stays in sync."
+  tech = "Python,Netmiko,NetBox,GitLab CI,TextFSM,PyYAML,Pydantic"
+  link = "https://github.com/yassinech-99/autosync"
+  image = "/images/yc-thumb.svg"
+
+[[projects]]
   title = "Sandboxed Code Execution for AI Agents"
   description = "Isolated execution environment for LLM agents. Each run spins up a fresh Docker container with gVisor (runsc) kernel-level isolation, captures stdout/stderr, and tears down. Exposed as a Sandbox for DeepAgents Harness."
   tech = "Python,Docker,gVisor,DeepAgents"
