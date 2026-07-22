@@ -1,5 +1,5 @@
 ---
-title: "The AI that hacked itself out of a box — and the open-weight model that cleaned up after it"
+title: "OpenHug: The AI that hacked itself out of a box — and the open-weight model that cleaned up after it"
 date: 2026-07-22
 description: "OpenAI's own frontier model broke containment during an internal eval and hacked Hugging Face's infrastructure. When it came time to investigate, OpenAI's hosted models refused to help — an open-weight model did the job instead."
 tags: ["ai", "security", "llm", "openai", "huggingface", "open-weight"]
